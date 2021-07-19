@@ -523,7 +523,7 @@ $PDO_query_produit_unique->closeCursor();
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group mb-2">
                                                     <label for="blog-edit-scat">Sous-Catégorie *:</label>
-                                                    <select class="select2 form-control" id="blog-edit-scat" name="scat">
+                                                    <select class="select2 form-control" id="blog-edit-scat" name="scat" required>
                                                         <?php 
                                                                                                                            
                                                                 
