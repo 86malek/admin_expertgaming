@@ -1,0 +1,17 @@
+/*================================================================================
+	Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+	Version: 2.0
+	Author: PIXINVENT
+	Author URL: http://www.themeforest.net/user/pixinvent
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+#basic-datatable .card .dataTables_wrapper .datatables-basic thead .sorting {
+  text-align: left; }
+
+#basic-datatable .card .dataTables_wrapper .datatables-basic tbody tr td a {
+  font-size: 170px;
+  margin-right: 8px; }
