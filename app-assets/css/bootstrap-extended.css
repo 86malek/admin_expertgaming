@@ -1639,7 +1639,7 @@ input[type='number']::-webkit-outer-spin-button {
     display: contents !important; } }
 
 .badge {
-  color: #ffffff; }
+  color: #191919; }
 
 .badge[class*='badge-'] [class*='icon-'] {
   line-height: 1; }
@@ -2487,11 +2487,11 @@ ul.list-inline.list-inline-pipe > li + li:before {
     width: 28rem; } }
 
 .modal-slide-in .modal-dialog.sidebar-sm {
-  width: 30rem; }
+  width: 25rem; }
 
 @media (min-width: 576px) {
   .modal-slide-in .modal-dialog.sidebar-lg {
-    width: 60rem; } }
+    width: 30rem; } }
 
 .modal-slide-in .close {
   top: 0.4rem;
