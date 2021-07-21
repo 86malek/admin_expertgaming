@@ -101,7 +101,7 @@ if ($job != '') {
                         $date = date_create($marque['eg_marque_date']);
 
                         $logo = '<div class="media-left">
-                                    <img src="'.$marque['eg_marque_logo'].'" alt="avatar" width="150">
+                                    <img src="'.$marque['eg_marque_logo'].'" alt="avatar" width="110" loading="lazy">
                                 </div>';
 
 

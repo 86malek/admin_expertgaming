@@ -1,6 +1,7 @@
 <?php 
 
 session_start();
+
 if (empty($page)) {
     $page = "function";
     // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
@@ -24,6 +25,7 @@ if (preg_match("/config/", $page)) {
         echo "Page inexistante !";
     }
 }
+
 if(empty($_SESSION['id'])){
 
     ProtectEspace::administrateur("", "", "");
@@ -33,7 +35,8 @@ if(empty($_SESSION['id'])){
     ProtectEspace::administrateur($_SESSION['id'], $_SESSION['jeton'], $_SESSION['niveau']);
 
 }
-if(!empty($_GET["id"])){$id_produit = $_GET["id"];}else{$id_produit = "";}
+
+if(isset($_GET["id"])){ $id_produit = $_GET["id"]; }else{ $id_produit = ""; }
 
 
 $PDO_query_produit_unique = Bdd::connectBdd()->prepare("SELECT * FROM eg_produit WHERE eg_produit_id = :id");
@@ -52,119 +55,117 @@ $PDO_query_produit_unique->closeCursor();
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
-    <title><?php if(!empty($_GET["id"])){echo'Produit Modification | Expert Gaming';}else{echo'Produit Ajout | Expert Gaming';} ?></title>
-    <link rel="apple-touch-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/images/ico/favicon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/images/ico/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
-        rel="stylesheet">
+    <title><?php if(!empty($_GET["id"])){echo $produit['eg_produit_nom'].' | '.$PARAM_nom_site;}else{echo'Ajout de produit | '.$PARAM_nom_site;} ?></title>
+    <link rel="apple-touch-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
     <!-- BEGIN: Vendor CSS-->
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/css/vendors.min.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/css/forms/select/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/css/extensions/sweetalert2.min.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/css/forms/select/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/css/extensions/sweetalert2.min.css">
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/bootstrap-extended.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/colors.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/components.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/themes/dark-layout.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/themes/bordered-layout.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/themes/semi-dark-layout.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/pages/ui-feather.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/bootstrap-extended.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/colors.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/components.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/themes/dark-layout.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/themes/bordered-layout.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/themes/semi-dark-layout.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/pages/ui-feather.css">
 
     <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/core/menu/menu-types/vertical-menu.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/themes/bordered-layout.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/plugins/forms/form-quill-editor.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/pages/page-blog.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/plugins/forms/form-validation.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/plugins/extensions/ext-component-sweet-alerts.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/core/menu/menu-types/vertical-menu.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/themes/bordered-layout.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/plugins/forms/form-quill-editor.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/pages/page-blog.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/plugins/forms/form-validation.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/plugins/extensions/ext-component-sweet-alerts.css">
     <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">    
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/assets/css/style.css">
-    
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/assets/css/style.css">    
     <!-- END: Custom CSS-->
+
 </head>
 <!-- END: Head-->
 
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static" data-open="click"
-    data-menu="vertical-menu-modern" data-col="">
+<body class="vertical-layout vertical-menu-modern navbar-floating footer-static menu-collapsed" data-open="click" data-menu="vertical-menu-modern" data-col="">
 
     <!-- BEGIN: Header-->
     <?php
-	$page = '';
-	if (empty($page)) {
-	 $page = "top";
-	 // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
-	 // On supprime également d'éventuels espaces
-	 $page = trim($page.".php");
-	
-	}
-	
-	// On évite les caractères qui permettent de naviguer dans les répertoires
-	$page = str_replace("../","protect",$page);
-	$page = str_replace(";","protect",$page);
-	$page = str_replace("%","protect",$page);
-	
-	// On interdit l'inclusion de dossiers protégés par htaccess
-	if (preg_match("/include/",$page)) {
-	 echo "Vous n'avez pas accès à ce répertoire";
-	 }
-	
-	else {
-	
-		// On vérifie que la page est bien sur le serveur
-		if (file_exists("../../../include/".$page) && $page != 'index.php') {
-		   include("../../../include/".$page); 
-		}
-	
-		else {
-			echo "Page inexistante !";
-		}
-	}
+        $page = '';
+        if (empty($page)) {
+        $page = "top";
+        // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
+        // On supprime également d'éventuels espaces
+        $page = trim($page.".php");
+        
+        }
+        
+        // On évite les caractères qui permettent de naviguer dans les répertoires
+        $page = str_replace("../","protect",$page);
+        $page = str_replace(";","protect",$page);
+        $page = str_replace("%","protect",$page);
+        
+        // On interdit l'inclusion de dossiers protégés par htaccess
+        if (preg_match("/include/",$page)) {
+        echo "Vous n'avez pas accès à ce répertoire";
+        }
+        
+        else {
+        
+            // On vérifie que la page est bien sur le serveur
+            if (file_exists("../../../include/".$page) && $page != 'index.php') {
+            include("../../../include/".$page); 
+            }
+        
+            else {
+                echo "Page inexistante !";
+            }
+        }
 	
 	?>
     <!-- END: Header-->
 
     <!-- BEGIN: Main Menu-->
     <?php
-	$page = '';
-	if (empty($page)) {
-	 $page = "menu";
-	 // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
-	 // On supprime également d'éventuels espaces
-	 $page = trim($page.".php");
-	
-	}
-	
-	// On évite les caractères qui permettent de naviguer dans les répertoires
-	$page = str_replace("../","protect",$page);
-	$page = str_replace(";","protect",$page);
-	$page = str_replace("%","protect",$page);
-	
-	// On interdit l'inclusion de dossiers protégés par htaccess
-	if (preg_match("/include/",$page)) {
-	 echo "Vous n'avez pas accès à ce répertoire";
-	 }
-	
-	else {
-	
-		// On vérifie que la page est bien sur le serveur
-		if (file_exists("../../../include/".$page) && $page != 'index.php') {
-		   include("../../../include/".$page); 
-		}
-	
-		else {
-			echo "Page inexistante !";
-		}
-	}
+        $page = '';
+        if (empty($page)) {
+        $page = "menu";
+        // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
+        // On supprime également d'éventuels espaces
+        $page = trim($page.".php");
+        
+        }
+        
+        // On évite les caractères qui permettent de naviguer dans les répertoires
+        $page = str_replace("../","protect",$page);
+        $page = str_replace(";","protect",$page);
+        $page = str_replace("%","protect",$page);
+        
+        // On interdit l'inclusion de dossiers protégés par htaccess
+        if (preg_match("/include/",$page)) {
+        echo "Vous n'avez pas accès à ce répertoire";
+        }
+        
+        else {
+        
+            // On vérifie que la page est bien sur le serveur
+            if (file_exists("../../../include/".$page) && $page != 'index.php') {
+            include("../../../include/".$page); 
+            }
+        
+            else {
+                echo "Page inexistante !";
+            }
+        }
 	
 	?>
     <!-- END: Main Menu-->
@@ -174,17 +175,18 @@ $PDO_query_produit_unique->closeCursor();
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
+
             <div class="content-header row">
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">ADMINISTRATION</h2>
+                            <h2 class="content-header-title float-left mb-0">CATALOGUE</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
 
-                                    <li class="breadcrumb-item active"><a href="liste_rubrique_produit.php">Liste des produits</a></li>
-
-                                    <li class="breadcrumb-item "><?php if(!empty($_GET["id"])){echo'Modification du produit';}else{echo'Ajout du produit';} ?></li>
+                                    <li class="breadcrumb-item">Produits</li>
+                                    <li class="breadcrumb-item"><a href="liste_rubrique_produit.php">Liste des produits</a></li>
+                                    <li class="breadcrumb-item active"><?php if(!empty($_GET["id"])){echo $produit['eg_produit_nom'];}else{echo"Ajout d'un nouveau produit";} ?></li>
 
                                 </ol>
                             </div>
@@ -194,9 +196,9 @@ $PDO_query_produit_unique->closeCursor();
                 <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
                     <div class="form-group breadcrumb-right">
                         
-                        <?php if(!empty($id_produit)){echo '<a class="btn-icon btn btn-warning btn-round btn-sm waves-effect waves-float waves-light" href="modif_ajout_produit_image.php?id='.$id_produit.'">Galerie des photos</a>';} ?>
+                        <?php if(!empty($id_produit)){echo '<a class="btn btn-warning btn-round btn-sm" href="modif_ajout_produit_image.php?id='.$id_produit.'">Galerie des photos</a>';} ?>
                         
-                        <a class="btn-icon btn btn-success btn-round btn-sm waves-effect waves-float waves-light" href="liste_rubrique_produit.php">Revenir à la liste</a>                     
+                        <a class="btn btn-success btn-round btn-sm" href="liste_rubrique_produit.php">Revenir à la liste des produit</a>                     
 
                     </div>
                 </div>
@@ -210,10 +212,11 @@ $PDO_query_produit_unique->closeCursor();
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
+                                    
                                     <div class="media mb-2">
 
                                         <div class="avatar mr-75">
-                                            <img src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/images/portrait/small/man.png" width="38" height="38" alt="Avatar" />
+                                            <img src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/portrait/small/man.png" width="38" height="38" alt="Avatar" />
                                         </div>
 
                                         <div class="media-body">
@@ -227,6 +230,7 @@ $PDO_query_produit_unique->closeCursor();
                                     <form method="post" id="jquery-val-form" class="<?php if(!empty($id_produit)){echo 'edit';}else{echo 'add';} ?>" data-id="<?php echo $id_produit; ?>">
                                                             
                                         <input name="user" type="hidden" value="<?php echo Membre::info($_SESSION['id'], 'id');?>">
+                                        <input name="id_produit" type="hidden" value="<?php echo $id_produit; ?>">
 
                                         <div class="row">
 
@@ -238,7 +242,7 @@ $PDO_query_produit_unique->closeCursor();
                                                     class="form-control"
                                                     id="basic-default-titre"
                                                     name="titre"
-                                                    placeholder="Maximum 150 caractéres !"
+                                                    placeholder="..."
                                                     value="<?php if(!empty($id_produit)){echo $produit['eg_produit_nom'];}?>"
                                                     required
                                                     />                                                 
@@ -247,12 +251,13 @@ $PDO_query_produit_unique->closeCursor();
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group mb-2">
                                                     <label for="blog-edit-menu">Menu *:</label>
-                                                    <select class="select2 form-control" id="blog-edit-menu" name="menu" required>
+                                                    <select class="form-control" id="blog-edit-menu" name="menu" required>
                                                         <?php 
                                                                                                                            
                                                                 
                                                                 $PDO_query_menu_liste_select = Bdd::connectBdd()->prepare("SELECT * FROM eg_menu ORDER BY eg_menu_id DESC");
                                                                 $PDO_query_menu_liste_select->execute();
+
                                                                 while($menu_liste = $PDO_query_menu_liste_select->fetch()){
 
                                                                     if(isset($produit['eg_menu_id']) && $produit['eg_menu_id'] == $menu_liste['eg_menu_id']){
@@ -260,10 +265,11 @@ $PDO_query_produit_unique->closeCursor();
                                                                         
                                                                     }else{
                                                                         echo '<option value="'.$menu_liste['eg_menu_id'].'">'.$menu_liste['eg_menu_titre'].'</option>';
-
                                                                     }
                                                                 }
-                                                                if(!empty($_GET["id"])){echo '<option value="">Selectionnez un Menu ...</option>';}else{echo '<option value="" selected>Selectionnez un Menu ...</option>';}
+
+                                                                if(isset($_GET["id"])){echo '';}else{echo '<option value="" selected>Selectionnez une menu</option>';}
+
                                                                 $PDO_query_menu_liste_select->closeCursor();  
 
                                                             
@@ -283,7 +289,7 @@ $PDO_query_produit_unique->closeCursor();
                                                     class="form-control"
                                                     id="basic-default-titre"
                                                     name="modele"
-                                                    placeholder=""
+                                                    placeholder="..."
                                                     value="<?php if(!empty($id_produit)){echo $produit['eg_produit_modele'];}?>"
                                                     required
                                                     />                                                 
@@ -292,7 +298,7 @@ $PDO_query_produit_unique->closeCursor();
                                             <div class="col-md-3 col-12">
                                                 <div class="form-group mb-2">
                                                     <label for="blog-edit-marque">Marques *:</label>
-                                                    <select class="select2 form-control" id="blog-edit-marque" name="marque">
+                                                    <select class="form-control" id="blog-edit-marque" name="marque" required>
                                                         <?php 
                                                                                                                            
                                                                 
@@ -308,7 +314,7 @@ $PDO_query_produit_unique->closeCursor();
 
                                                                     }
                                                                 }
-                                                                if(!empty($_GET["id"])){echo '<option value="">Selectionnez une Marque ...</option>';}else{echo '<option value="" selected>Selectionnez une Marque ...</option>';}
+                                                                if(!empty($_GET["id"])){echo '';}else{echo '<option value="" selected>Selectionnez une Marque</option>';}
                                                                 $PDO_query_marque_liste_select->closeCursor();  
 
                                                             
@@ -319,7 +325,7 @@ $PDO_query_produit_unique->closeCursor();
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group mb-2">
                                                     <label for="blog-edit-cat">Catégorie *:</label>
-                                                    <select class="select2 form-control" id="blog-edit-cat" name="cat">
+                                                    <select class="form-control" id="blog-edit-cat" name="cat">
                                                         <?php 
                                                                                                                            
                                                                 
@@ -335,7 +341,7 @@ $PDO_query_produit_unique->closeCursor();
 
                                                                     }
                                                                 }
-                                                                if(!empty($_GET["id"])){echo '<option value="">Selectionnez une catégorie ...</option>';}else{echo '<option value="" selected>Selectionnez une catégorie ...</option>';}
+                                                                if(isset($_GET["id"])){echo '';}else{echo '<option value="" selected>Selectionnez une catégorie</option>';}
                                                                 $PDO_query_cat_liste_select->closeCursor();  
 
                                                             
@@ -350,7 +356,7 @@ $PDO_query_produit_unique->closeCursor();
                                             <div class="col-md-3 col-12">
                                                 <div class="form-group mb-2">
                                                     <label for="blog-edit-etoile">Nombre d'étoile *:</label>
-                                                    <select class="select2 form-control" id="blog-edit-etoile" name="etoile" required>
+                                                    <select class="form-control" id="blog-edit-etoile" name="etoile" required>
                                                         <?php 
                                                             if(isset($produit['eg_produit_etoiles'])){
                                                                 switch($produit['eg_produit_etoiles'])
@@ -514,7 +520,7 @@ $PDO_query_produit_unique->closeCursor();
                                                     class="form-control"
                                                     id="basic-default-titre"
                                                     name="ref"
-                                                    placeholder=""
+                                                    placeholder="..."
                                                     value="<?php if(!empty($id_produit)){echo $produit['eg_produit_reference'];}?>"
                                                     required
                                                     />                                                 
@@ -523,7 +529,7 @@ $PDO_query_produit_unique->closeCursor();
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group mb-2">
                                                     <label for="blog-edit-scat">Sous-Catégorie *:</label>
-                                                    <select class="select2 form-control" id="blog-edit-scat" name="scat" required>
+                                                    <select class="form-control" id="blog-edit-scat" name="scat" required>
                                                         <?php 
                                                                                                                            
                                                                 
@@ -539,7 +545,7 @@ $PDO_query_produit_unique->closeCursor();
 
                                                                     }
                                                                 }
-                                                                if(!empty($_GET["id"])){echo '<option value="">Selectionnez une sous catégorie ...</option>';}else{echo '<option value="" selected>Selectionnez une sous catégorie ...</option>';}
+                                                                if(isset($_GET["id"])){echo '';}else{echo '<option value="" selected>Selectionnez une sous catégorie</option>';}
                                                                 $PDO_query_scat_liste_select->closeCursor();  
 
                                                             
@@ -578,24 +584,24 @@ $PDO_query_produit_unique->closeCursor();
                                                     />                                                 
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-12">
+                                            <div class="col-md-3 col-12">
                                                 <div class="form-group mb-2">
                                                     <label for="blog-edit-status">Statut *:</label>
-                                                    <select class="select2 form-control" id="blog-edit-status" name="statut" required>
+                                                    <select class="form-control" id="blog-edit-status" name="statut" required>
                                                         <?php 
                                                             if(isset($produit['eg_produit_statut'])){
                                                                 switch($produit['eg_produit_statut'])
                                                                 {
                                                                     case '1':
-                                                                        if($produit['eg_produit_statut'] == 1){ echo '<option value="1" selected>Produit activé</option><option value="0">Produit non activé</option>';}else{ echo '<option value="1">Produit activé</option><option value="0">Produit non activé</option><option value="" selected>Selectionnez un Produit ...</option>';}
+                                                                        if($produit['eg_produit_statut'] == 1){ echo '<option value="1" selected>Produit activé</option><option value="0">Produit non activé</option>';}else{ echo '<option value="1">Produit activé</option><option value="0">Produit non activé</option><option value="" selected>Selectionnez un statut</option>';}
                                                                     break; 
                                                                                             
                                                                     default:
-                                                                    if($produit['eg_produit_statut'] == 0){ echo '<option value="1">Produit activé</option><option value="0" selected>Produit non activé</option>';}else{ echo '<option value="1">Produit activé</option><option value="0">Produit non activé</option><option value="" selected>Selectionnez un Produit ...</option>';}
+                                                                    if($produit['eg_produit_statut'] == 0){ echo '<option value="1">Produit activé</option><option value="0" selected>Produit non activé</option>';}else{ echo '<option value="1">Produit activé</option><option value="0">Produit non activé</option><option value="" selected>Selectionnez un statut</option>';}
                                                                 } 
                                                             }else{
 
-                                                                echo '<option value="1">Produit activé</option><option value="0">Produit non activé</option><option value="" selected>Selectionnez un Produit ...</option>';
+                                                                echo '<option value="1" selected>Produit activé</option><option value="0">Produit non activé</option>';
 
                                                             } 
 
@@ -606,6 +612,34 @@ $PDO_query_produit_unique->closeCursor();
                                                     
                                                 </div>
                                             </div>
+                                            <div class="col-md-3 col-12">
+                                                <div class="form-group mb-2">
+                                                    <label for="blog-edit-new">Nouveau produit *:</label>
+                                                    <select class="form-control" id="blog-edit-new" name="new" required>
+                                                        <?php 
+                                                                                                                           
+    
+                                                            if(isset($produit['eg_produit_new'])){
+                                                                switch($produit['eg_produit_new'])
+                                                                {
+                                                                    case '1':
+                                                                        if($produit['eg_produit_new'] == 1){ echo '<option value="1" selected>Icone Nouveau produit activée</option><option value="0">Icone Nouveau produit non activée</option>';}else{ echo '<option value="1">Icone Nouveau produit</option><option value="0" selected>Icone Nouveau produit non activée</option>';}
+                                                                    break;  
+                                                                                            
+                                                                    default:
+                                                                    if($produit['eg_produit_new'] == 0){ echo '<option value="1">Icone Nouveau produit activée</option><option value="0" selected>Icone Nouveau produit non activée</option>';}
+                                                                } 
+                                                            }else{
+
+                                                                echo '<option value="1">Icone Nouveau produit activée</option><option value="0" selected>Icone Nouveau produit non activée</option>';
+
+                                                            } 
+
+                                                             
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
 
                                         </div>
 
@@ -614,21 +648,21 @@ $PDO_query_produit_unique->closeCursor();
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group mb-2">
                                                     <label for="blog-edit-topvente">Top Vente *:</label>
-                                                    <select class="select2 form-control" id="blog-edit-topvente" name="topvente" required>
+                                                    <select class="form-control" id="blog-edit-topvente" name="topvente" required>
                                                         <?php 
                                                             if(isset($produit['eg_produit_top_vente'])){
                                                                 switch($produit['eg_produit_top_vente'])
                                                                 {
                                                                     case '1':
-                                                                        if($produit['eg_produit_top_vente'] == 1){ echo '<option value="1" selected>Top-vente activé</option><option value="0">Top-vente non activé</option>';}else{ echo '<option value="1">Top-vente activé</option><option value="0">Top-vente non activé</option><option value="" selected>Activez l\'icone Top-vente ...</option>';}
+                                                                        if($produit['eg_produit_top_vente'] == 1){ echo '<option value="1" selected>Icone Top-vente activée</option><option value="0">Icone Top-vente non activée</option>';}else{ echo '<option value="1">Icone Top-vente activée</option><option value="0">Icone Top-vente non activée</option><option value="" selected>Activez l\'icone Top-vente ...</option>';}
                                                                     break; 
                                                                                             
                                                                     default:
-                                                                    if($produit['eg_produit_top_vente'] == 0){ echo '<option value="1">Top-vente activé</option><option value="0" selected>Top-vente non activé</option>';}else{ echo '<option value="1">Top-vente activé</option><option value="0">Top-vente non activé</option><option value="" selected>Activez l\'icone Top-vente ...</option>';}
+                                                                    if($produit['eg_produit_top_vente'] == 0){ echo '<option value="1">Icone Top-vente activée</option><option value="0" selected>Icone Top-vente non activée</option>';}else{ echo '<option value="1">Icone Top-vente activée</option><option value="0">Icone Top-vente non activée</option><option value="" selected>Activez l\'icone Top-vente</option>';}
                                                                 } 
                                                             }else{
 
-                                                                echo '<option value="1">Top-vente activé</option><option value="0">Top-vente non activé</option><option value="" selected>Activez l\'icone Top-vente ...</option>';
+                                                                echo '<option value="1">Icone Top-vente activée</option><option value="0">Icone Top-vente non activée</option>><option value="" selected>Activez l\'icone Top-vente</option>';
 
                                                             } 
 
@@ -637,25 +671,33 @@ $PDO_query_produit_unique->closeCursor();
                                                         ?>
                                                     </select>
                                                 </div>
-                                            </div> 
+                                            </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group mb-2">
                                                     <label for="blog-edit-dispo">Disponibilité *:</label>
-                                                    <select class="select2 form-control" id="blog-edit-dispo" name="dispo" required>
+                                                    <select class="form-control" id="blog-edit-dispo" name="dispo" required>
                                                         <?php 
                                                             if(isset($produit['eg_produit_dispo'])){
                                                                 switch($produit['eg_produit_dispo'])
                                                                 {
                                                                     case '1':
-                                                                        if($produit['eg_produit_dispo'] == 1){ echo '<option value="1" selected>Disponible</option><option value="0">Hors Stock</option>';}else{ echo '<option value="1">Disponible</option><option value="0">Hors Stock</option><option value="" selected>Activez la Disponibilité ...</option>';}
+                                                                        if($produit['eg_produit_dispo'] == 1){ echo '<option value="1" selected>Disponible</option><option value="2">Sur commande 48H</option><option value="3">Sur commande 72H</option><option value="0">Hors Stock</option>';}else{ echo '<option value="1">Disponible</option><option value="2">Sur commande 48H</option><option value="3">Sur commande 72H</option><option value="0" selected>Hors Stock</option>';}
+                                                                    break; 
+
+                                                                    case '2':
+                                                                        if($produit['eg_produit_dispo'] == 2){ echo '<option value="1">Disponible</option><option value="2" selected>Sur commande 48H</option><option value="3">Sur commande 72H</option><option value="0">Hors Stock</option>';}else{ echo '<option value="1">Disponible</option><option value="2">Sur commande 48H</option><option value="3">Sur commande 72H</option><option value="0" selected>Hors Stock</option>';}
+                                                                    break; 
+
+                                                                    case '3':
+                                                                        if($produit['eg_produit_dispo'] == 3){ echo '<option value="1">Disponible</option><option value="2">Sur commande 48H</option><option value="3" selected>Sur commande 72H</option><option value="0">Hors Stock</option>';}else{ echo '<option value="1">Disponible</option><option value="2">Sur commande 48H</option><option value="3">Sur commande 72H</option><option value="0" selected>Hors Stock</option>';}
                                                                     break; 
                                                                                             
                                                                     default:
-                                                                    if($produit['eg_produit_dispo'] == 0){ echo '<option value="1">Disponible</option><option value="0" selected>Hors Stock</option>';}else{ echo '<option value="1">Disponible</option><option value="0">Hors Stock</option><option value="" selected>Activez la Disponibilité ...</option>';}
+                                                                    if($produit['eg_produit_dispo'] == 0){ echo '<option value="1">Disponible</option><option value="2">Sur commande 48H</option><option value="3">Sur commande 72H</option><option value="0" selected>Hors Stock</option>';}else{ echo '<option value="1">Disponible</option><option value="2">Sur commande 48H</option><option value="3">Sur commande 72H</option><option value="0" selected>Hors Stock</option>';}
                                                                 } 
                                                             }else{
 
-                                                                echo '<option value="1">Disponible</option><option value="0">Hors Stock</option><option value="" selected>Activez la Disponibilité ...</option>';
+                                                                echo '<option value="1" selected>Disponible</option><option value="2">Sur commande 48H</option><option value="3">Sur commande 72H</option><option value="0">Hors Stock</option>';
 
                                                             } 
 
@@ -671,11 +713,11 @@ $PDO_query_produit_unique->closeCursor();
 
                                             <div class="col-12">
                                                 <div class="form-group mb-2">
-                                                    <label>Discription courte *:</label>
+                                                    <label>Description courte *:</label>
                                                     
                                                     <div id="blog-editor-wrapper">
                                                         <div id="blog-editor-container">
-                                                            <textarea name="desc" class="editor form-control" id="editor" data-sample-short required>
+                                                            <textarea name="desc" class="editor form-control" id="editor" required>
                                                             <?php
                                                             if(!empty($id_produit))
                                                             {echo $produit['eg_produit_description'];}                                                           
@@ -692,11 +734,11 @@ $PDO_query_produit_unique->closeCursor();
 
                                             <div class="col-12">
                                                 <div class="form-group mb-2">
-                                                    <label>Discription longue *:</label>
+                                                    <label>Description longue *:</label>
                                                     
                                                     <div id="blog-editor-wrapper">
                                                         <div id="blog-editor-container">
-                                                            <textarea name="desc_longue" class="editor form-control" id="editor_1" data-sample-short required>
+                                                            <textarea name="desc_longue" class="editor form-control" id="editor_1" required>
                                                             <?php
                                                             if(!empty($id_produit))
                                                             {echo $produit['eg_produit_description_longue'];}                                                           
@@ -711,7 +753,7 @@ $PDO_query_produit_unique->closeCursor();
 
                                         <div class="row">
                                             <div class="col-12 mt-50">
-                                                <button type="submit" class="btn btn-primary mr-1">Enregistrement</button>
+                                                <button type="submit" class="btn btn-primary mr-1" id="submit">Enregistrement</button>
                                                 <button type="reset" class="btn btn-outline-secondary">Annuler</button>
                                             </div>
 
@@ -738,65 +780,66 @@ $PDO_query_produit_unique->closeCursor();
 
     <!-- BEGIN: Footer-->
     <?php
-	$page = '';
-	if (empty($page)) {
-	 $page = "footer";
-	 // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
-	 // On supprime également d'éventuels espaces
-	 $page = trim($page.".php");
-	
-	}
-	
-	// On évite les caractères qui permettent de naviguer dans les répertoires
-	$page = str_replace("../","protect",$page);
-	$page = str_replace(";","protect",$page);
-	$page = str_replace("%","protect",$page);
-	
-	// On interdit l'inclusion de dossiers protégés par htaccess
-	if (preg_match("/include/",$page)) {
-	 echo "Vous n'avez pas accès à ce répertoire";
-	 }
-	
-	else {
-	
-		// On vérifie que la page est bien sur le serveur
-		if (file_exists("../../../include/".$page) && $page != 'index.php') {
-		   include("../../../include/".$page); 
-		}
-	
-		else {
-			echo "Page inexistante !";
-		}
-	}
+
+        $page = '';
+        if (empty($page)) {
+        $page = "footer";
+        // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
+        // On supprime également d'éventuels espaces
+        $page = trim($page.".php");
+        
+        }
+        
+        // On évite les caractères qui permettent de naviguer dans les répertoires
+        $page = str_replace("../","protect",$page);
+        $page = str_replace(";","protect",$page);
+        $page = str_replace("%","protect",$page);
+        
+        // On interdit l'inclusion de dossiers protégés par htaccess
+        if (preg_match("/include/",$page)) {
+        echo "Vous n'avez pas accès à ce répertoire";
+        }
+        
+        else {
+        
+            // On vérifie que la page est bien sur le serveur
+            if (file_exists("../../../include/".$page) && $page != 'index.php') {
+            include("../../../include/".$page); 
+            }
+        
+            else {
+                echo "Page inexistante !";
+            }
+        }
 	
 	?> 
     <!-- END: Footer-->
 
     
     <!-- BEGIN: Vendor JS-->
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/js/vendors.min.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/vendors.min.js"></script>
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
     
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/js/core/app-menu.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/js/core/app.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/js/extensions/polyfill.min.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/core/app-menu.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/core/app.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/extensions/polyfill.min.js"></script>
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/js/scripts/pages/page-blog-edit.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/js/scripts/forms/form-validation.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/js/scripts/extensions/ext-component-sweet-alerts.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/js/scripts/extensions/ext-component-blockui.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/js/scripts/extensions/ext-component-blockui.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/scripts/pages/page-blog-edit.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/scripts/forms/form-validation.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/scripts/extensions/ext-component-sweet-alerts.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/scripts/extensions/ext-component-blockui.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/scripts/extensions/ext-component-blockui.js"></script>
     <!-- END: Page JS-->
 
     <script charset="utf-8"  src="<?php echo Admin::menuproduit();?>table/js/webapp_liste_produit.js"></script>
@@ -805,13 +848,12 @@ $PDO_query_produit_unique->closeCursor();
 
     <script src="ckeditor/js/sf.js"></script>
     <script src="ckeditor/js/tree-a.js"></script>
-    <script src="https://cdn.ckeditor.com/4.12.1/standard-all/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/4.12.1/full-all/ckeditor.js"></script>
     <script src="ckfinder/ckfinder.js"></script>
 
     
 
     <script>
-        
         
 
         CKEDITOR.disableAutoInline = true;
@@ -843,17 +885,7 @@ $PDO_query_produit_unique->closeCursor();
                     height: 14
                 });
             }
-            $.blockUI({
-                message: '<div class="spinner-border text-white" role="status"></div>',
-                timeout: 1000,
-                css: {
-                backgroundColor: 'transparent',
-                border: '0'
-                },
-                overlayCSS: {
-                opacity: 0.5
-                }
-            });
+            
         });
 
     </script>

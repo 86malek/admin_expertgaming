@@ -1639,7 +1639,7 @@ input[type='number']::-webkit-outer-spin-button {
     display: contents !important; } }
 
 .badge {
-  color: #191919; }
+  color: #ffffff; }
 
 .badge[class*='badge-'] [class*='icon-'] {
   line-height: 1; }

@@ -36,8 +36,8 @@ if (isset($_GET['job'])) {
 
     if ($job == 'get_liste_produit' || $job == 'add_produit' || $job == 'edit_produit' || $job == 'del_produit') {
 
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
+        if (isset($_POST['id'])) {
+            $id = $_POST['id'];
             if (!is_numeric($id)) {
                 $id = '';
             }
@@ -61,9 +61,9 @@ if ($job != '') {
         while ($produit = $PDO_query_produit->fetch()) {
 
                         $functions = '
-                        <a href="modif_ajout_produit.php?id='.$produit['eg_produit_id'].'" style="font-size: 0.9rem !important;" class="btn btn-info btn-sm waves-effect waves-float waves-light mr-1"">Modifer les details</a>';
-                        $biblioimg = '
-                        <a href="modif_ajout_produit_image.php?id='.$produit['eg_produit_id'].'" style="font-size: 0.9rem !important;" class="btn btn-warning btn-sm waves-effect waves-float waves-light mr-1"">Gestion des photos</a>';
+                        <a href="modif_ajout_produit.php?id='.$produit['eg_produit_id'].'" style="font-size: 0.9rem !important;" class="btn btn-info btn-sm">Modifer les details</a>';
+                        $functions .= '
+                        <a href="modif_ajout_produit_image.php?id='.$produit['eg_produit_id'].'" style="font-size: 0.9rem !important;" class="btn btn-warning btn-sm ml-1">Gelerie</a>';
 
                         $PDO_query_verif_img = Bdd::connectBdd()->prepare("SELECT * FROM eg_image_produit WHERE eg_produit_id  = :eg_produit_id");
                         $PDO_query_verif_img->bindParam(":eg_produit_id", $produit['eg_produit_id'], PDO::PARAM_INT);
@@ -72,11 +72,14 @@ if ($job != '') {
                         $img_existe = $PDO_query_verif_img->rowCount();
 
                         if($img_existe > 0){
+
                         $img_prod = $PDO_query_verif_img->fetch();
+
                         $logo = '
-                        <div class="media-left">
-                            <img src="'.$img_prod['eg_image_produit_nom'].'" alt="avatar" width="90">
-                        </div>';
+                                <div class="media-left">
+                                    <img src="'.$img_prod['eg_image_produit_nom'].'" alt="avatar" width="90" loading="lazy">
+                                </div>
+                                ';
                         }else{
 
                             $logo='Aucune-Image'; 
@@ -101,7 +104,6 @@ if ($job != '') {
                             $PDO_query_verif_menu->closeCursor();
                             $menu = $titre_menu['eg_menu_titre'];
                         }else{$menu = '.';}
-
                         if($produit['eg_sous_categorie_id'] != 0){
                             $PDO_query_verif_scat = Bdd::connectBdd()->prepare("SELECT * FROM eg_sous_categorie WHERE eg_sous_categorie_id = :eg_sous_categorie_id");
                             $PDO_query_verif_scat->bindParam(":eg_sous_categorie_id", $produit['eg_sous_categorie_id'], PDO::PARAM_INT);
@@ -111,22 +113,15 @@ if ($job != '') {
                             $scat = $titre_scat['eg_sous_categorie_nom'];
                         }else{$scat = '.';}
 
-
-                            $app = '<b>'.$menu.'</b> > <b>'.$cat.'</b> > <b>'.$scat.'</b>';
-
+                        $app = ''.$menu.' > '.$cat.' > '.$scat.'';
 
                         if($img_existe == 0){
 
-                            $functions .= 
-                                '<a href="#" style="font-size: 0.9rem !important;" class="btn btn-danger btn-sm waves-effect waves-float waves-light" data-id="' .
-                                $produit['eg_produit_id'] .'" data-name="' .$produit['eg_produit_nom'] .'" id="delete-record">Supprimer</a>
-                            ';
+                            $supp = '<a href="#" style="font-size: 0.9rem !important;" class="btn btn-danger btn-sm" data-id="'.$produit['eg_produit_id'].'" data-name="'.$produit['eg_produit_nom'].'" id="delete-record">Supprimer</a>';
 
                         }else{
 
-                            $functions .= 
-                                '<a style="font-size: 0.9rem !important;" class="btn btn-secondary btn-sm waves-effect waves-float waves-light mt-1">Supp impossible</a>
-                            ';
+                            $supp = '<a style="font-size: 0.9rem !important;" class="btn btn-secondary btn-sm">Supprission impossible</a>';
 
                         }
 
@@ -139,8 +134,10 @@ if ($job != '') {
                             default:
                                 $statut = '<div class="badge badge-light-danger">Non-Actif</div>';
                         }
+                        
 
                         $date = date_create($produit['eg_produit_date']);
+                        $date_format = date_format($date, "d/m/Y");
 
                         if($produit['eg_produit_promo'] == 0.000){
 
@@ -154,15 +151,6 @@ if ($job != '') {
                         }
                         $promo = '<b>'.$produit['eg_produit_promo'].'</b>';
 
-                        /*$logo = '
-                                <div class="media-left">
-                                    <img src="'.Admin::menuproduit().$img_prod['eg_image_produit_nom'].'" alt="avatar" width="150">
-                                </div>';*/
-
-
-                        
-
-
                         $name_user = Membre::info($produit['eg_produit_user'], 'nom').' '.Membre::info($produit['eg_produit_user'], 'prenom');
 
                         $titre = $produit['eg_produit_nom'];
@@ -174,9 +162,17 @@ if ($job != '') {
                             case '1':
                                 $dispo = '<div class="badge badge-success">Dispo</div>';
                             break; 
+
+                            case '2':
+                                $dispo = '<div class="badge badge-info">Sur commande 48h</div>';
+                            break;
+
+                            case '3':
+                                $dispo = '<div class="badge badge-info">Sur commande 72h</div>';
+                            break;
                                                     
                             default:
-                                $dispo = '<div class="badge badge-light-danger">Non-dispo</div>';
+                                $dispo = '<div class="badge badge-light-danger">Hors-stock</div>';
                         }
 
                         switch($produit['eg_produit_top_vente'])
@@ -187,7 +183,17 @@ if ($job != '') {
                                                     
                             default:
                                 $top = '<div class="badge badge-light-secondary">Normal</div>';
-                        }                        
+                        } 
+                        
+                        switch($produit['eg_produit_new'])
+                        {
+                            case '1':
+                                $new = '<div class="badge badge-info">Nouveau</div>';
+                            break; 
+                                                    
+                            default:
+                                $new = '<div class="badge badge-light-secondary">Ancien</div>';
+                        }
 
                         $id = $produit['eg_produit_id'];
 
@@ -204,9 +210,10 @@ if ($job != '') {
                             "bpromo" => $badgepromo,
                             "top" => $top,
                             "dispo" => $dispo,
-                            "start_date" => date_format($date, "d/m/Y"),
+                            "new" => $new,
+                            "start_date" => $date_format,
                             "status" => $statut,   
-                            "biblioimg" => $biblioimg,             
+                            "supp" => $supp,             
                             "Actions" => $functions
                         ];
         }
@@ -222,7 +229,7 @@ if ($job != '') {
     }elseif ($job == 'add_produit') {
         try {
 
-            $query = Bdd::connectBdd()->prepare("INSERT INTO eg_produit (`eg_produit_date`, `eg_produit_user`, `eg_categorie_id`, `eg_sous_categorie_id`,`eg_menu_id`, `eg_produit_nom`, `eg_produit_etoiles`, `eg_produit_reference`, `eg_produit_modele`, `eg_produit_prix`, `eg_produit_promo`, `eg_produit_disponibilite`, `eg_produit_description`, `eg_produit_top_vente`, `eg_produit_statut`, `eg_produit_dispo`, `eg_marque_id`, `eg_produit_description_longue`) VALUES (now(), :eg_produit_user, :eg_categorie_id, :eg_sous_categorie_id,  :eg_menu_id, :eg_produit_nom, :eg_produit_etoiles, :eg_produit_reference, :eg_produit_modele, :eg_produit_prix, :eg_produit_promo, :eg_produit_disponibilite, :eg_produit_description, :eg_produit_top_vente, :eg_produit_statut, :eg_produit_dispo, :eg_marque_id, :eg_produit_description_longue)");
+            $query = Bdd::connectBdd()->prepare("INSERT INTO eg_produit (`eg_produit_date`, `eg_produit_user`, `eg_categorie_id`, `eg_sous_categorie_id`,`eg_menu_id`, `eg_produit_nom`, `eg_produit_etoiles`, `eg_produit_reference`, `eg_produit_modele`, `eg_produit_prix`, `eg_produit_promo`, `eg_produit_disponibilite`, `eg_produit_description`, `eg_produit_top_vente`, `eg_produit_statut`, `eg_produit_dispo`, `eg_marque_id`, `eg_produit_description_longue`, `eg_produit_new`) VALUES (now(), :eg_produit_user, :eg_categorie_id, :eg_sous_categorie_id,  :eg_menu_id, :eg_produit_nom, :eg_produit_etoiles, :eg_produit_reference, :eg_produit_modele, :eg_produit_prix, :eg_produit_promo, :eg_produit_disponibilite, :eg_produit_description, :eg_produit_top_vente, :eg_produit_statut, :eg_produit_dispo, :eg_marque_id, :eg_produit_description_longue, :eg_produit_new)");
             
             $query->bindParam(":eg_produit_user", $_POST['user'], PDO::PARAM_INT);
             $query->bindParam(":eg_categorie_id", $_POST['cat'], PDO::PARAM_INT);
@@ -241,6 +248,7 @@ if ($job != '') {
             $query->bindParam(":eg_produit_top_vente", $_POST['topvente'], PDO::PARAM_INT);
             $query->bindParam(":eg_produit_statut", $_POST['statut'], PDO::PARAM_INT);
             $query->bindParam(":eg_produit_dispo", $_POST['dispo'], PDO::PARAM_INT);
+            $query->bindParam(":eg_produit_new", $_POST['new'], PDO::PARAM_INT);
 
             $query->execute();
             $query->closeCursor();
@@ -248,7 +256,7 @@ if ($job != '') {
             $result = 'success';
             $message = 'Produit ajouté avec succés';
             
-        } catch (PDOException $x) {
+        }catch (PDOException $x) {
             die("Secured");
             $result = 'error';
             $message = 'Échec de requête';
@@ -258,14 +266,11 @@ if ($job != '') {
 
     }elseif ($job == 'del_produit') {
 
-        if ($id == '') {
-            $result = 'Échec';
-            $message = 'Échec id';
-        } else {
+        
 
             try {
                 $query_del = Bdd::connectBdd()->prepare("DELETE FROM eg_produit WHERE eg_produit_id = :id");
-                $query_del->bindParam(":id", $id, PDO::PARAM_INT);
+                $query_del->bindParam(":id", $_POST['id_del'], PDO::PARAM_INT);
                 $query_del->execute();
                 $query_del->closeCursor();
                 $result = 'success';
@@ -278,20 +283,15 @@ if ($job != '') {
             $query_del = null;
             $bdd = null;
 
-        }
+        
 
     }elseif ($job == 'edit_produit') {
 
-        if ($id == '') {
+        
 
-            $result = 'Échec';
-            $message = 'Échec id';
+            $query = Bdd::connectBdd()->prepare("UPDATE eg_produit SET eg_produit_date = now(), eg_produit_user = :eg_produit_user, eg_categorie_id = :eg_categorie_id, eg_sous_categorie_id = :eg_sous_categorie_id, eg_marque_id = :eg_marque_id, eg_menu_id = :eg_menu_id, eg_produit_nom = :eg_produit_nom, eg_produit_etoiles = :eg_produit_etoiles, eg_produit_reference = :eg_produit_reference, eg_produit_modele = :eg_produit_modele, eg_produit_prix = :eg_produit_prix, eg_produit_promo = :eg_produit_promo, eg_produit_disponibilite = :eg_produit_disponibilite, eg_produit_description = :eg_produit_description, eg_produit_description_longue = :eg_produit_description_longue, eg_produit_top_vente = :eg_produit_top_vente, eg_produit_statut = :eg_produit_statut, eg_produit_dispo = :eg_produit_dispo, eg_produit_new = :eg_produit_new WHERE eg_produit_id = :eg_produit_id");
 
-        } else {
-
-            $query = Bdd::connectBdd()->prepare("UPDATE eg_produit SET eg_produit_date = now(), eg_produit_user = :eg_produit_user, eg_categorie_id = :eg_categorie_id, eg_sous_categorie_id = :eg_sous_categorie_id, eg_marque_id = :eg_marque_id, eg_menu_id = :eg_menu_id, eg_produit_nom = :eg_produit_nom, eg_produit_etoiles = :eg_produit_etoiles, eg_produit_reference = :eg_produit_reference, eg_produit_modele = :eg_produit_modele, eg_produit_prix = :eg_produit_prix, eg_produit_promo = :eg_produit_promo, eg_produit_disponibilite = :eg_produit_disponibilite, eg_produit_description = :eg_produit_description, eg_produit_description_longue = :eg_produit_description_longue, eg_produit_top_vente = :eg_produit_top_vente, eg_produit_statut = :eg_produit_statut, eg_produit_dispo = :eg_produit_dispo WHERE eg_produit_id = :eg_produit_id");
-
-            $query->bindParam(":eg_produit_id", $id, PDO::PARAM_INT);
+            $query->bindParam(":eg_produit_id", $_POST['id_produit'], PDO::PARAM_INT);
             $query->bindParam(":eg_produit_user", $_POST['user'], PDO::PARAM_INT);
             $query->bindParam(":eg_categorie_id", $_POST['cat'], PDO::PARAM_INT);
             $query->bindParam(":eg_sous_categorie_id", $_POST['scat'], PDO::PARAM_INT);
@@ -309,6 +309,7 @@ if ($job != '') {
             $query->bindParam(":eg_produit_top_vente", $_POST['topvente'], PDO::PARAM_INT);
             $query->bindParam(":eg_produit_statut", $_POST['statut'], PDO::PARAM_INT);
             $query->bindParam(":eg_produit_dispo", $_POST['dispo'], PDO::PARAM_INT);
+            $query->bindParam(":eg_produit_new", $_POST['new'], PDO::PARAM_INT);
 
             $query->execute();
 
@@ -316,7 +317,7 @@ if ($job != '') {
 
             $result = 'success';
             $message = 'Succès de requête';
-        }
+        
     }
 }
 

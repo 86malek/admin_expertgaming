@@ -90,9 +90,9 @@
 
                 /* If we have only the default value disable select. */
                 if (1 === $("option", child).length && $(child).val() === "") {
-                    $(child).prop("disabled", true);
+                    $(child).prop("required", true);
                 } else {
-                    $(child).prop("disabled", false);
+                    $(child).prop("required", false);
                 }
                 if (triggerChange) {
                     $(child).trigger("change");
