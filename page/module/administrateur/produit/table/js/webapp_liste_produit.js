@@ -304,6 +304,7 @@ $(function () {
 			    $(".modal-backdrop").removeClass("show");
         }
       })
+      
     });   
 
     $(document).on('submit', '.add', function(e){

@@ -36,8 +36,8 @@ if (isset($_GET['job'])) {
 
     if ($job == 'get_liste_menu' || $job == 'add_menu' || $job == 'edit_menu' || $job == 'del_menu') {
 
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
+        if (isset($_POST['id'])) {
+            $id = $_POST['id'];
             if (!is_numeric($id)) {
                 $id = '';
             }
@@ -143,11 +143,11 @@ if ($job != '') {
             $query = Bdd::connectBdd()->prepare("INSERT INTO eg_menu (`eg_menu_date`, `eg_menu_user`, `eg_menu_titre`, `eg_menu_hot`, `eg_menu_ordre`, `eg_menu_statut`)
 			 VALUES (now(), :user, :menu_titre, :menu_hot, :ordre, :statut)");
 
-            $query->bindParam(":menu_titre", $_GET['titre'], PDO::PARAM_STR);
-            $query->bindParam(":menu_hot", $_GET['hot'], PDO::PARAM_INT);
-            $query->bindParam(":ordre", $_GET['ordre'], PDO::PARAM_INT);
-            $query->bindParam(":statut", $_GET['statut'], PDO::PARAM_INT);
-            $query->bindParam(":user", $_GET['user'], PDO::PARAM_STR);
+            $query->bindParam(":menu_titre", $_POST['titre'], PDO::PARAM_STR);
+            $query->bindParam(":menu_hot", $_POST['hot'], PDO::PARAM_INT);
+            $query->bindParam(":ordre", $_POST['ordre'], PDO::PARAM_INT);
+            $query->bindParam(":statut", $_POST['statut'], PDO::PARAM_INT);
+            $query->bindParam(":user", $_POST['user'], PDO::PARAM_STR);
 
             $query->execute();
             $query->closeCursor();
@@ -165,14 +165,11 @@ if ($job != '') {
 
     }elseif ($job == 'del_menu') {
 
-        if ($id == '') {
-            $result = 'Échec';
-            $message = 'Échec id';
-        } else {
+        
 
             try {
                 $query_del = Bdd::connectBdd()->prepare("DELETE FROM eg_menu WHERE eg_menu_id = :id");
-                $query_del->bindParam(":id", $id, PDO::PARAM_INT);
+                $query_del->bindParam(":id", $_POST['id_del'], PDO::PARAM_INT);
                 $query_del->execute();
                 $query_del->closeCursor();
                 $result = 'success';
@@ -185,26 +182,21 @@ if ($job != '') {
             $query_del = null;
             $bdd = null;
 
-        }
+        
 
     }elseif ($job == 'edit_menu') {
 
-        if ($id == '') {
-
-            $result = 'Échec';
-            $message = 'Échec id';
-
-        } else {
+        
 
             $query = Bdd::connectBdd()->prepare("UPDATE eg_menu SET eg_menu_date = now(), eg_menu_user = :eg_menu_user, eg_menu_titre = :eg_menu_titre, eg_menu_hot = :eg_menu_hot, eg_menu_ordre = :eg_menu_ordre, eg_menu_statut = :eg_menu_statut  WHERE eg_menu_id = :eg_menu_id");
 
-            $query->bindParam(":eg_menu_id", $id, PDO::PARAM_INT);
+            $query->bindParam(":eg_menu_id", $_POST['id_menu'], PDO::PARAM_INT);
 
-            $query->bindParam(":eg_menu_user", $_GET['user'], PDO::PARAM_INT);
-            $query->bindParam(":eg_menu_titre", $_GET['titre'], PDO::PARAM_STR);
-            $query->bindParam(":eg_menu_hot", $_GET['hot'], PDO::PARAM_INT);
-            $query->bindParam(":eg_menu_ordre", $_GET['ordre'], PDO::PARAM_INT);
-            $query->bindParam(":eg_menu_statut", $_GET['statut'], PDO::PARAM_INT);
+            $query->bindParam(":eg_menu_user", $_POST['user'], PDO::PARAM_INT);
+            $query->bindParam(":eg_menu_titre", $_POST['titre'], PDO::PARAM_STR);
+            $query->bindParam(":eg_menu_hot", $_POST['hot'], PDO::PARAM_INT);
+            $query->bindParam(":eg_menu_ordre", $_POST['ordre'], PDO::PARAM_INT);
+            $query->bindParam(":eg_menu_statut", $_POST['statut'], PDO::PARAM_INT);
 
             $query->execute();
 
@@ -212,7 +204,7 @@ if ($job != '') {
 
             $result = 'success';
             $message = 'Succès de requête';
-        }
+        
     }
 }
 

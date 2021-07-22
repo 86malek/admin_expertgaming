@@ -49,45 +49,43 @@ $PDO_query_menu_unique->closeCursor();
 
 <!-- BEGIN: Head-->
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
-    <title><?php if(!empty($_GET["id"])){echo'Menu Modification | Expert Gaming';}else{echo'Menu Ajout | Expert Gaming';} ?></title>
-    <link rel="apple-touch-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/images/ico/favicon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/images/ico/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
-        rel="stylesheet">
+    <title><?php if(!empty($_GET["id"])){echo $menu['eg_menu_titre'].' | '.$PARAM_nom_site;}else{echo'Ajout de menu | '.$PARAM_nom_site;} ?></title>
+    <link rel="apple-touch-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
     <!-- BEGIN: Vendor CSS-->
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/css/vendors.min.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/css/forms/select/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/css/extensions/sweetalert2.min.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/css/forms/select/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/css/extensions/sweetalert2.min.css">
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/bootstrap-extended.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/colors.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/components.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/themes/dark-layout.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/themes/bordered-layout.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/themes/semi-dark-layout.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/pages/ui-feather.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/bootstrap-extended.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/colors.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/components.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/themes/dark-layout.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/themes/bordered-layout.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/themes/semi-dark-layout.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/pages/ui-feather.css">
 
     <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/core/menu/menu-types/vertical-menu.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/themes/bordered-layout.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/plugins/forms/form-quill-editor.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/pages/page-blog.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/plugins/forms/form-validation.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/css/plugins/extensions/ext-component-sweet-alerts.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/core/menu/menu-types/vertical-menu.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/themes/bordered-layout.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/plugins/forms/form-quill-editor.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/pages/page-blog.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/plugins/forms/form-validation.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/plugins/extensions/ext-component-sweet-alerts.css">
     <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">    
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/assets/css/style.css">
-    
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/assets/css/style.css">    
     <!-- END: Custom CSS-->
 </head>
 <!-- END: Head-->
@@ -228,6 +226,7 @@ $PDO_query_menu_unique->closeCursor();
                                     <form method="post" id="jquery-val-form" class="<?php if(!empty($id_menu)){echo 'edit';}else{echo 'add';} ?>" data-id="<?php echo $id_menu; ?>">
                                                             
                                         <input name="user" type="hidden" value="<?php echo Membre::info($_SESSION['id'], 'id');?>">
+                                        <input name="id_menu" type="hidden" value="<?php echo $id_menu; ?>">
 
                                         <div class="row">
 
@@ -239,7 +238,7 @@ $PDO_query_menu_unique->closeCursor();
                                                     class="form-control"
                                                     id="basic-default-titre"
                                                     name="titre"
-                                                    placeholder="Maximum 150 caractéres !"
+                                                    placeholder="..."
                                                     value="<?php if(!empty($id_menu)){echo $menu['eg_menu_titre'];}?>"
                                                     required
                                                     />                                                 
@@ -249,21 +248,21 @@ $PDO_query_menu_unique->closeCursor();
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group mb-2">
                                                     <label for="blog-edit-hot">Activer l'icone HOT dans le menu *:</label>
-                                                    <select class="select2 form-control" id="blog-edit-hot" name="hot" required>
+                                                    <select class="form-control" id="blog-edit-hot" name="hot" required>
                                                         <?php 
                                                             if(isset($menu['eg_menu_hot'])){
                                                                 switch($menu['eg_menu_hot'])
                                                                 {
                                                                     case '1':
-                                                                        if($menu['eg_menu_hot'] == 1){ echo '<option value="1" selected>Icone HOT Activée</option><option value="0">Icone HOT Non-Activée</option>';}else{ echo '<option value="1">Icone HOT Activée</option><option value="0">Icone HOT Non-Activée</option><option value="" selected>Slectionnez une valeur</option>';}
+                                                                        if($menu['eg_menu_hot'] == 1){ echo '<option value="1" selected>Icone HOT Activée</option><option value="0">Icone HOT Non-Activée</option>';}else{ echo '<option value="1">Icone HOT Activée</option><option value="0">Icone HOT Non-Activée</option><option value="" selected>Merci de choisir une option</option>';}
                                                                     break; 
                                                                                             
                                                                     default:
-                                                                        if($menu['eg_menu_hot'] == 0){ echo '<option value="0" selected>Icone HOT Non-Activée</option><option value="1">Icone HOT Activée</option>';}else{ echo '<option value="0">Icone HOT Non-Activée</option><option value="1">Icone HOT Activée</option><option value="" selected>Slectionnez une valeur</option>';}
+                                                                        if($menu['eg_menu_hot'] == 0){ echo '<option value="0" selected>Icone HOT Non-Activée</option><option value="1">Icone HOT Activée</option>';}else{ echo '<option value="0">Icone HOT Non-Activée</option><option value="1">Icone HOT Activée</option><option value="" selected>Merci de choisir une option</option>';}
                                                                 } 
                                                             }else{
 
-                                                                echo '<option value="1">Icone HOT Activée</option><option value="0">Icone HOT Non-Activée</option><option value="" selected>Slectionnez une valeur</option>';
+                                                                echo '<option value="1">Icone HOT Activée</option><option value="0">Icone HOT Non-Activée</option><option value="" selected>Merci de choisir une option</option>';
 
                                                             }                                    
                                                             
@@ -287,21 +286,21 @@ $PDO_query_menu_unique->closeCursor();
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group mb-2">
                                                     <label for="blog-edit-status">Status *:</label>
-                                                    <select class="select2 form-control" id="blog-edit-status" name="statut" required>
+                                                    <select class="form-control" id="blog-edit-status" name="statut" required>
                                                         <?php 
                                                             if(isset($menu['eg_menu_statut'])){
                                                                 switch($menu['eg_menu_statut'])
                                                                 {
                                                                     case '1':
-                                                                        if($menu['eg_menu_statut'] == 1){ echo '<option value="1" selected>Menu activé</option><option value="0">Menu non activé</option>';}else{ echo '<option value="1">Menu activé</option><option value="0">Menu non activé</option><option value="" selected>Slectionnez une valeur</option>';}
+                                                                        if($menu['eg_menu_statut'] == 1){ echo '<option value="1" selected>Menu activé</option><option value="0">Menu non activé</option>';}else{ echo '<option value="1">Menu activé</option><option value="0">Menu non activé</option><option value="" selected>Merci de choisir une option</option>';}
                                                                     break; 
                                                                                             
                                                                     default:
-                                                                    if($menu['eg_menu_statut'] == 0){ echo '<option value="1">Menu activé</option><option value="0" selected>Menu non activé</option>';}else{ echo '<option value="1">Menu activé</option><option value="0">Menu non activé</option><option value="" selected>Slectionnez une valeur</option>';}
+                                                                    if($menu['eg_menu_statut'] == 0){ echo '<option value="1">Menu activé</option><option value="0" selected>Menu non activé</option>';}else{ echo '<option value="1">Menu activé</option><option value="0">Menu non activé</option><option value="" selected>Merci de choisir une option</option>';}
                                                                 } 
                                                             }else{
 
-                                                                echo '<option value="1">Menu activé</option><option value="0">Menu non activé</option><option value="" selected>Slectionnez une valeur</option>';
+                                                                echo '<option value="1">Menu activé</option><option value="0">Menu non activé</option><option value="" selected>Merci de choisir une option</option>';
 
                                                             } 
 
@@ -313,7 +312,7 @@ $PDO_query_menu_unique->closeCursor();
                                             </div>
 
                                             <div class="col-12 mt-50">
-                                                <button type="submit" class="btn btn-primary mr-1">Enregistrement</button>
+                                                <button type="submit" class="btn btn-primary mr-1" id="submit">Enregistrement</button>
                                                 <button type="reset" class="btn btn-outline-secondary">Annuler</button>
                                             </div>
 
@@ -376,28 +375,29 @@ $PDO_query_menu_unique->closeCursor();
 
 
     <!-- BEGIN: Vendor JS-->
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/js/vendors.min.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/vendors.min.js"></script>
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/forms/select/select2.full.min.js"></script>
     
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/js/core/app-menu.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/js/core/app.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/js/extensions/polyfill.min.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/core/app-menu.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/core/app.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/extensions/polyfill.min.js"></script>
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/js/scripts/pages/page-blog-edit.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/js/scripts/forms/form-validation.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/js/scripts/extensions/ext-component-sweet-alerts.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/js/scripts/extensions/ext-component-blockui.js"></script>
-    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/scripts/pages/page-blog-edit.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/scripts/forms/form-validation.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/scripts/extensions/ext-component-sweet-alerts.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/scripts/extensions/ext-component-blockui.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+    <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/js/scripts/extensions/ext-component-blockui.js"></script>
     <!-- END: Page JS-->
 
     <script charset="utf-8"  src="<?php echo Admin::menunavigation();?>table/js/webapp_liste_menu.js"></script>
