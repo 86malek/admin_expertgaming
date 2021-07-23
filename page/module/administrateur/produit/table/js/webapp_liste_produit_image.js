@@ -71,13 +71,14 @@ $(function () {
 		})
   }); 
 
-  $(document).on('submit', '.add', function(e){
+  $(document).on('submit', '.add_img_1', function(e){
 
     e.preventDefault();
-      var form_data = $('#jquery-val-form').serialize();
+      var form_data = $('.add_img_1').serialize();
+      var id_prod   = $('.add_img_1').attr('data-id-prod');
       var onSuccess = function (data) {
         console.log('Success');
-        window.location.assign("liste_rubrique_produit.php");
+        window.location.assign("modif_ajout_produit_image.php?id=" + id_prod);
     
       };
       var onError = function (jqXHR, textStatus, errorThrown) {
@@ -90,18 +91,179 @@ $(function () {
       
       var onBeforeSend = function () {
           console.log("Loading");
+          $('#submit').text('Envoi en cours'); // Onchange la valeur pour avoir un retour visuel
+          $('#submit').attr("disabled", true); // On s'assure du fait que le bouton ne sera plus cliquable, tu peut meme rajouter une classe ?!?!
+          $('.add_img_1').block({
+            message: '<div class="spinner-border text-primary" role="status"></div>',
+            timeout: 1000,
+            css: {
+              backgroundColor: 'transparent',
+              border: '0'
+            },
+            overlayCSS: {
+              backgroundColor: '#fff',
+              opacity: 0.8
+            }
+          });
       };
       var request   = $.ajax({
-        url:          'table/php/data_liste_produit.php?job=add_produit',
+        url:          'table/php/data_liste_produit_image.php?job=add_produit_image_1',
         data:         form_data,
-        dataType:     'json',
-        contentType:  'application/json; charset=utf-8',
-        type:         'get',
+        type:         'post',
         async: false,
         beforeSend: onBeforeSend,
         error: onError,
         success: onSuccess
-      });	  
+
+      });	
+        
+      
+  });
+
+  $(document).on('submit', '.add_img_2', function(e){
+
+    e.preventDefault();
+      var form_data = $('.add_img_2').serialize();
+      var id_prod   = $('.add_img_2').attr('data-id-prod');
+      var onSuccess = function (data) {
+        console.log('Success');
+        window.location.assign("modif_ajout_produit_image.php?id=" + id_prod);
+    
+      };
+      var onError = function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+          alert("no se conecto");
+      
+      };
+      
+      var onBeforeSend = function () {
+          console.log("Loading");
+          $('#submit').text('Envoi en cours'); // Onchange la valeur pour avoir un retour visuel
+          $('#submit').attr("disabled", true); // On s'assure du fait que le bouton ne sera plus cliquable, tu peut meme rajouter une classe ?!?!
+          $('.add_img_2').block({
+            message: '<div class="spinner-border text-primary" role="status"></div>',
+            timeout: 1000,
+            css: {
+              backgroundColor: 'transparent',
+              border: '0'
+            },
+            overlayCSS: {
+              backgroundColor: '#fff',
+              opacity: 0.8
+            }
+          });
+      };
+      var request   = $.ajax({
+        url:          'table/php/data_liste_produit_image.php?job=add_produit_image_2',
+        data:         form_data,
+        type:         'post',
+        async: false,
+        beforeSend: onBeforeSend,
+        error: onError,
+        success: onSuccess
+        
+      });	
+        
+      
+  });
+
+  $(document).on('submit', '.add_img_3', function(e){
+
+    e.preventDefault();
+      var form_data = $('.add_img_3').serialize();
+      var id_prod   = $('.add_img_3').attr('data-id-prod');
+      var onSuccess = function (data) {
+        console.log('Success');
+        window.location.assign("modif_ajout_produit_image.php?id=" + id_prod);
+    
+      };
+      var onError = function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+          alert("no se conecto");
+      
+      };
+      
+      var onBeforeSend = function () {
+          console.log("Loading");
+          $('#submit').text('Envoi en cours'); // Onchange la valeur pour avoir un retour visuel
+          $('#submit').attr("disabled", true); // On s'assure du fait que le bouton ne sera plus cliquable, tu peut meme rajouter une classe ?!?!
+          $('.add_img_3').block({
+            message: '<div class="spinner-border text-primary" role="status"></div>',
+            timeout: 1000,
+            css: {
+              backgroundColor: 'transparent',
+              border: '0'
+            },
+            overlayCSS: {
+              backgroundColor: '#fff',
+              opacity: 0.8
+            }
+          });
+      };
+      var request   = $.ajax({
+        url:          'table/php/data_liste_produit_image.php?job=add_produit_image_3',
+        data:         form_data,
+        type:         'post',
+        async: false,
+        beforeSend: onBeforeSend,
+        error: onError,
+        success: onSuccess
+        
+      });	
+        
+      
+  });
+
+  $(document).on('submit', '.add_img_4', function(e){
+
+    e.preventDefault();
+      var form_data = $('.add_img_4').serialize();
+      var id_prod   = $('.add_img_4').attr('data-id-prod');
+      var onSuccess = function (data) {
+        console.log('Success');
+        window.location.assign("modif_ajout_produit_image.php?id=" + id_prod);
+    
+      };
+      var onError = function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+          alert("no se conecto");
+      
+      };
+      
+      var onBeforeSend = function () {
+          console.log("Loading");
+          $('#submit').text('Envoi en cours'); // Onchange la valeur pour avoir un retour visuel
+          $('#submit').attr("disabled", true); // On s'assure du fait que le bouton ne sera plus cliquable, tu peut meme rajouter une classe ?!?!
+          $('.add_img_4').block({
+            message: '<div class="spinner-border text-primary" role="status"></div>',
+            timeout: 1000,
+            css: {
+              backgroundColor: 'transparent',
+              border: '0'
+            },
+            overlayCSS: {
+              backgroundColor: '#fff',
+              opacity: 0.8
+            }
+          });
+      };
+      var request   = $.ajax({
+        url:          'table/php/data_liste_produit_image.php?job=add_produit_image_4',
+        data:         form_data,
+        type:         'post',
+        async: false,
+        beforeSend: onBeforeSend,
+        error: onError,
+        success: onSuccess
+        
+      });	
+        
       
   });
 
@@ -111,7 +273,7 @@ $(function () {
 
       var id        = $('.edit_img_1').attr('data-id');
       var form_data = $('.edit_img_1').serialize();
-      var id_prod        = $('.edit_img_1').attr('data-id-prod');
+      var id_prod   = $('.edit_img_1').attr('data-id-prod');
 
       var onSuccess = function (data) {
         console.log('Success');
@@ -127,21 +289,33 @@ $(function () {
       
       var onBeforeSend = function () {
           console.log("Loading");
+          $('#submit').text('Envoi en cours'); // Onchange la valeur pour avoir un retour visuel
+          $('#submit').attr("disabled", true); // On s'assure du fait que le bouton ne sera plus cliquable, tu peut meme rajouter une classe ?!?!
+          $('.add_img_1').block({
+            message: '<div class="spinner-border text-primary" role="status"></div>',
+            timeout: 1000,
+            css: {
+              backgroundColor: 'transparent',
+              border: '0'
+            },
+            overlayCSS: {
+              backgroundColor: '#fff',
+              opacity: 0.8
+            }
+          });
       };
 
 
       var request   = $.ajax({
-        url:          'table/php/data_liste_produit_image.php?job=edit_produit_image_1&id=' + id,
+        url:          'table/php/data_liste_produit_image.php?job=edit_produit_image_1',
         data:         form_data,
-        dataType:     'json',
-        contentType:  'application/json; charset=utf-8',
-        type:         'get',
+        type:         'post',
         async: false,
         beforeSend: onBeforeSend,
         error: onError,
         success: onSuccess
-      });
-    
+      });	
+
   });
 
   $(document).on('submit', '.edit_img_2', function(e){
@@ -166,15 +340,27 @@ $(function () {
     
     var onBeforeSend = function () {
         console.log("Loading");
+          $('#submit').text('Envoi en cours'); // Onchange la valeur pour avoir un retour visuel
+          $('#submit').attr("disabled", true); // On s'assure du fait que le bouton ne sera plus cliquable, tu peut meme rajouter une classe ?!?!
+          $('.add_img_2').block({
+            message: '<div class="spinner-border text-primary" role="status"></div>',
+            timeout: 1000,
+            css: {
+              backgroundColor: 'transparent',
+              border: '0'
+            },
+            overlayCSS: {
+              backgroundColor: '#fff',
+              opacity: 0.8
+            }
+          });
     };
 
 
     var request   = $.ajax({
-      url:          'table/php/data_liste_produit_image.php?job=edit_produit_image_2&id=' + id,
+      url:          'table/php/data_liste_produit_image.php?job=edit_produit_image_2',
       data:         form_data,
-      dataType:     'json',
-      contentType:  'application/json; charset=utf-8',
-      type:         'get',
+      type:         'post',
       async: false,
       beforeSend: onBeforeSend,
       error: onError,
@@ -205,15 +391,27 @@ $(function () {
     
     var onBeforeSend = function () {
         console.log("Loading");
+        $('#submit').text('Envoi en cours'); // Onchange la valeur pour avoir un retour visuel
+          $('#submit').attr("disabled", true); // On s'assure du fait que le bouton ne sera plus cliquable, tu peut meme rajouter une classe ?!?!
+          $('.add_img_3').block({
+            message: '<div class="spinner-border text-primary" role="status"></div>',
+            timeout: 1000,
+            css: {
+              backgroundColor: 'transparent',
+              border: '0'
+            },
+            overlayCSS: {
+              backgroundColor: '#fff',
+              opacity: 0.8
+            }
+          });
     };
 
 
     var request   = $.ajax({
-      url:          'table/php/data_liste_produit_image.php?job=edit_produit_image_3&id=' + id,
+      url:          'table/php/data_liste_produit_image.php?job=edit_produit_image_3',
       data:         form_data,
-      dataType:     'json',
-      contentType:  'application/json; charset=utf-8',
-      type:         'get',
+      type:         'post',
       async: false,
       beforeSend: onBeforeSend,
       error: onError,
@@ -244,15 +442,27 @@ $(function () {
     
     var onBeforeSend = function () {
         console.log("Loading");
+        $('#submit').text('Envoi en cours'); // Onchange la valeur pour avoir un retour visuel
+          $('#submit').attr("disabled", true); // On s'assure du fait que le bouton ne sera plus cliquable, tu peut meme rajouter une classe ?!?!
+          $('.add_img_4').block({
+            message: '<div class="spinner-border text-primary" role="status"></div>',
+            timeout: 1000,
+            css: {
+              backgroundColor: 'transparent',
+              border: '0'
+            },
+            overlayCSS: {
+              backgroundColor: '#fff',
+              opacity: 0.8
+            }
+          });
     };
 
 
     var request   = $.ajax({
-      url:          'table/php/data_liste_produit_image.php?job=edit_produit_image_4&id=' + id,
+      url:          'table/php/data_liste_produit_image.php?job=edit_produit_image_4',
       data:         form_data,
-      dataType:     'json',
-      contentType:  'application/json; charset=utf-8',
-      type:         'get',
+      type:         'post',
       async: false,
       beforeSend: onBeforeSend,
       error: onError,
