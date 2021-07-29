@@ -903,7 +903,7 @@ class Message {
 
 					<div class="media-left">
 						<div class="avatar">
-							<img src="http://'.$_SERVER['SERVER_NAME'].'/intranet_etai/app-assets/images/portrait/small/man.png" alt="avatar" width="32" height="32">
+							<img src="http://'.$_SERVER['SERVER_NAME'].'/app-assets/images/portrait/small/man.png" alt="avatar" width="32" height="32">
 						</div>
 					</div>
 
@@ -925,7 +925,7 @@ class Message {
 
 						<div class="media-left">
 							<div class="avatar">
-								<img src="http://'.$_SERVER['SERVER_NAME'].'/intranet_etai/app-assets/images/portrait/small/man.png" alt="avatar" width="32" height="32">
+								<img src="http://'.$_SERVER['SERVER_NAME'].'/app-assets/images/portrait/small/man.png" alt="avatar" width="32" height="32">
 							</div>
 						</div>
 
@@ -1403,6 +1403,10 @@ class Admin {
 	}
 	public static function menuidv() {
 		$lien = URLSITE.'/administrateur/identite_vehicule/';
+		return $lien;
+	}
+	public static function menuimage() {
+		$lien = URLSITE.'/administrateur/banniere/';
 		return $lien;
 	}
 		

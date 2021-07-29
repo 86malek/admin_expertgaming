@@ -36,8 +36,8 @@ if (isset($_GET['job'])) {
 
     if ($job == 'get_liste_cat' || $job == 'add_cat' || $job == 'edit_cat' || $job == 'del_cat') {
 
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
+        if (isset($_POST['id'])) {
+            $id = $_POST['id'];
             if (!is_numeric($id)) {
                 $id = '';
             }
@@ -139,16 +139,16 @@ if ($job != '') {
             $query = Bdd::connectBdd()->prepare("INSERT INTO eg_categorie (`eg_categorie_date`, `eg_categorie_user`, `eg_menu_id`, `eg_categorie_nom`, `eg_categorie_statut`)
 			 VALUES (now(), :user, :menu_id, :cat_titre, :statut)");
 
-            $query->bindParam(":cat_titre", $_GET['titre'], PDO::PARAM_STR);
-            $query->bindParam(":menu_id", $_GET['menu'], PDO::PARAM_INT);
-            $query->bindParam(":statut", $_GET['statut'], PDO::PARAM_INT);
-            $query->bindParam(":user", $_GET['user'], PDO::PARAM_INT);
+            $query->bindParam(":cat_titre", $_POST['titre'], PDO::PARAM_STR);
+            $query->bindParam(":menu_id", $_POST['menu'], PDO::PARAM_INT);
+            $query->bindParam(":statut", $_POST['statut'], PDO::PARAM_INT);
+            $query->bindParam(":user", $_POST['user'], PDO::PARAM_INT);
 
             $query->execute();
             $query->closeCursor();
 
             $result = 'success';
-            $message = 'Niveau ajouté avec succés';
+            $message = 'Catégorie ajouté avec succés';
             
         } catch (PDOException $x) {
             die("Secured");
@@ -156,14 +156,10 @@ if ($job != '') {
             $message = 'Échec de requête';
         }
         $query = null;
-        $bdd = null;
 
     }elseif ($job == 'del_cat') {
 
-        if ($id == '') {
-            $result = 'Échec';
-            $message = 'Échec id';
-        } else {
+        
 
             try {
                 $query_del = Bdd::connectBdd()->prepare("DELETE FROM eg_categorie WHERE eg_categorie_id = :id");
@@ -178,27 +174,19 @@ if ($job != '') {
                 $message = 'Échec de requête';
             }
             $query_del = null;
-            $bdd = null;
 
-        }
+        
 
     }elseif ($job == 'edit_cat') {
-
-        if ($id == '') {
-
-            $result = 'Échec';
-            $message = 'Échec id';
-
-        } else {
-
+        
+        try {
             $query = Bdd::connectBdd()->prepare("UPDATE eg_categorie SET eg_categorie_date = now(), eg_categorie_user = :eg_categorie_user, eg_menu_id = :eg_menu_id, eg_categorie_nom = :eg_categorie_nom, eg_categorie_statut = :eg_categorie_statut  WHERE eg_categorie_id = :eg_categorie_id");
 
-            $query->bindParam(":eg_categorie_id", $id, PDO::PARAM_INT);
-
-            $query->bindParam(":eg_categorie_user", $_GET['user'], PDO::PARAM_INT);
-            $query->bindParam(":eg_categorie_nom", $_GET['titre'], PDO::PARAM_STR);
-            $query->bindParam(":eg_menu_id", $_GET['menu'], PDO::PARAM_INT);
-            $query->bindParam(":eg_categorie_statut", $_GET['statut'], PDO::PARAM_INT);
+            $query->bindParam(":eg_categorie_id", $_POST['id_cat'], PDO::PARAM_INT);
+            $query->bindParam(":eg_categorie_user", $_POST['user'], PDO::PARAM_INT);
+            $query->bindParam(":eg_categorie_nom", $_POST['titre'], PDO::PARAM_STR);
+            $query->bindParam(":eg_menu_id", $_POST['menu'], PDO::PARAM_INT);
+            $query->bindParam(":eg_categorie_statut", $_POST['statut'], PDO::PARAM_INT);
 
             $query->execute();
 
@@ -206,7 +194,12 @@ if ($job != '') {
 
             $result = 'success';
             $message = 'Succès de requête';
+        } catch (PDOException $x) {
+            die("Secured");
+            $result = 'error';
+            $message = 'Échec de requête';
         }
+        
     }
 }
 

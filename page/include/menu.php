@@ -119,6 +119,16 @@
                 </ul>
             </li>
 
+
+            <li class=" navigation-header"><span data-i18n="">Centre des images</span><i data-feather="more-horizontal"></i></li>
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-user-cog" aria-hidden="true"></i><span class="menu-title text-truncate" data-i18n="Admin">Banniére</span></a>
+                <ul class="menu-content">
+                    <li><a class="d-flex align-items-center" title="Gestion des devis" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/page/module/administrateur/banniere/liste_banniere_top.php"><i class="far fa-window-minimize"></i><span class="menu-item text-truncate" data-i18n="Banniére">Gestion des Banniére</span></a>
+                    </li>
+                </ul>
+            </li>
+
+
             <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Catalogue</span><i data-feather="more-horizontal"></i>
             </li>
             <li class=" nav-item">
@@ -162,13 +172,7 @@
                 </ul>
             </li>
 
-            <li class=" navigation-header"><span data-i18n="">Client</span><i data-feather="more-horizontal"></i></li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-user-cog" aria-hidden="true"></i><span class="menu-title text-truncate" data-i18n="Admin">Devis</span></a>
-                <ul class="menu-content">
-                    <li><a class="d-flex align-items-center" title="Gestion des devis" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/page/module/administrateur/devis/liste_rubrique_devis.php"><i class="far fa-window-minimize"></i><span class="menu-item text-truncate" data-i18n="Gestion des devis">Gestion des devis</span></a>
-                    </li>
-                </ul>
-            </li>
+            
 
         </ul>
     </div>

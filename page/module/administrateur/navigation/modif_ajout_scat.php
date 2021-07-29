@@ -225,6 +225,7 @@ $PDO_query_scat_unique->closeCursor();
                                     <form method="post" id="jquery-val-form" class="<?php if(!empty($id_scat)){echo 'edit';}else{echo 'add';} ?>" data-id="<?php if(!empty($id_scat)){echo $id_scat;} ?>">
                                                             
                                         <input name="user" type="hidden" value="<?php echo Membre::info($_SESSION['id'], 'id');?>">
+                                        <input name="id_scat" type="hidden" value="<?php echo $id_scat;?>">
 
                                         <div class="row">
 
@@ -236,7 +237,7 @@ $PDO_query_scat_unique->closeCursor();
                                                     class="form-control"
                                                     id="basic-default-titre"
                                                     name="titre"
-                                                    placeholder="Maximum 150 caractéres !"
+                                                    placeholder=""
                                                     value="<?php if(!empty($id_scat)){echo $scat['eg_sous_categorie_nom'];}?>"
                                                     required
                                                     />                                                 
@@ -279,15 +280,15 @@ $PDO_query_scat_unique->closeCursor();
                                                                 switch($scat['eg_sous_categorie_statut'])
                                                                 {
                                                                     case '1':
-                                                                        if($scat['eg_sous_categorie_statut'] == 1){ echo '<option value="1" selected>Sous-Catégorie activée</option><option value="0">Sous-Catégorie non activée</option>';}else{ echo '<option value="1">Sous-Catégorie activée</option><option value="0">Sous-Catégorie non activée</option><option value="" selected>Selectionnez une valeur</option>';}
+                                                                        if($scat['eg_sous_categorie_statut'] == 1){ echo '<option value="1" selected>Sous-Catégorie activée</option><option value="0">Sous-Catégorie non activée</option>';}else{ echo '<option value="1">Sous-Catégorie activée</option><option value="0">Sous-Catégorie non activée</option>';}
                                                                     break; 
                                                                                             
                                                                     default:
-                                                                    if($scat['eg_sous_categorie_statut'] == 0){ echo '<option value="1">Sous-Catégorie activée</option><option value="0" selected>Sous-Catégorie non activée</option>';}else{ echo '<option value="1">Sous-Catégorie activée</option><option value="0">Sous-Catégorie non activée</option><option value="" selected>Selectionnez une valeur</option>';}
+                                                                    if($scat['eg_sous_categorie_statut'] == 0){ echo '<option value="1">Sous-Catégorie activée</option><option value="0" selected>Sous-Catégorie non activée</option>';}else{ echo '<option value="1">Sous-Catégorie activée</option><option value="0">Sous-Catégorie non activée</option>';}
                                                                 } 
                                                             }else{
 
-                                                                echo '<option value="1">Sous-Catégorie activée</option><option value="0">Sous-Catégorie non activée</option><option value="" selected>Selectionnez une valeur</option>';
+                                                                echo '<option value="1" selected>Sous-Catégorie activée</option><option value="0">Sous-Catégorie non activée</option>';
 
                                                             } 
 
@@ -299,7 +300,7 @@ $PDO_query_scat_unique->closeCursor();
                                             </div>
 
                                             <div class="col-12 mt-50">
-                                                <button type="submit" class="btn btn-primary mr-1">Enregistrement</button>
+                                                <button type="submit" class="btn btn-primary mr-1" id="submit">Enregistrement</button>
                                                 <button type="reset" class="btn btn-outline-secondary">Annuler</button>
                                             </div>
 

@@ -17,13 +17,15 @@ $(function () {
   // --------------------------------------------------------------------
   if (dt_basic_table.length) {
     var dt_basic = dt_basic_table.DataTable({
-      ajax: 'table/php/data_liste_scat.php?job=get_liste_scat',
+      ajax: 'table/php/data_liste_banniere_top.php?job=get_liste_banniere_top',
       columns: [    
         { data: 'responsive_id' },
         { data: 'id' },
         { data: 'id' }, // used for sorting so will hide this column    
         { data: 'full_name' },
+        { data: 'image' },
         { data: 'titre' },
+        { data: 'lien' },
         { data: 'start_date' },
         { data: 'status' },
         { data: 'Actions' }
@@ -75,9 +77,6 @@ $(function () {
               '<span class="emp_name text-truncate font-weight-bold">' +
               $name +
               '</span>' +
-              '<small class="emp_post text-truncate text-muted">' +
-              $post +
-              '</small>' +
               '</div>' +
               '</div>';
             return $row_output;
@@ -198,7 +197,7 @@ $(function () {
         infoFiltered: "(filtré depuis _MAX_ total des enregistrements)"
       }
     });
-    $('div.head-label').html('<h6 class="mb-0">Liste des catégories du site WEB</h6>');
+    $('div.head-label').html('<h6 class="mb-0">Liste des images de la banniére</h6>');
   
   }
   // Flat Date picker
@@ -209,7 +208,6 @@ $(function () {
     });
   }
 
-  
   $(document).on('click', '#delete-record', function (e) {
     var id      = $(this).data('id');
     var name      = $(this).data('name');
@@ -237,7 +235,7 @@ $(function () {
                 Swal.fire({
                   type: "success",
                   title: 'Supprimé !',
-                  text: "Sous-Catégorie '" + name + "' supprimée avec succès.",
+                  text: "Image '" + name + "' supprimée avec succès.",
                   confirmButtonClass: 'btn btn-success',
                 });
                 //$(".dtr-bs-modal").removeClass("show");
@@ -266,7 +264,7 @@ $(function () {
               };
 
               var request = $.ajax({
-                url:          'table/php/data_liste_scat.php?job=del_scat',
+                url:          'table/php/data_liste_banniere_top.php?job=del_image',
                 data:         'id=' + id,
                 type:         'post',
                 async: false,
@@ -292,68 +290,22 @@ $(function () {
     
   });
 
-  $(document).on('submit', '.add', function(e){	  			
-
-    e.preventDefault();
-    var form_data = $('#jquery-val-form').serialize();
-    var onSuccess = function (data) {
-      console.log('Success');
-      window.location.assign("liste_rubrique_scat.php");
-  
-    };
-    var onError = function (jqXHR, textStatus, errorThrown) {
-        console.log(jqXHR);
-        console.log(textStatus);
-        console.log(errorThrown);
-        alert("no se conecto");
-    
-    };
-    
-    var onBeforeSend = function () {
-        console.log("Loading");
-        $('#submit').text('Envoi en cours'); // Onchange la valeur pour avoir un retour visuel
-        $('#submit').attr("disabled", true); // On s'assure du fait que le bouton ne sera plus cliquable, tu peut meme rajouter une classe ?!?!
-        $('.add').block({
-          message: '<div class="spinner-border text-primary" role="status"></div>',
-          timeout: 1000,
-          css: {
-            backgroundColor: 'transparent',
-            border: '0'
-          },
-          overlayCSS: {
-            backgroundColor: '#fff',
-            opacity: 0.8
-          }
-        });
-    };
-    var request   = $.ajax({
-      url:          'table/php/data_liste_scat.php?job=add_scat',
-      data:         form_data,
-      type:         'post',
-      async: false,
-      beforeSend: onBeforeSend,
-      error: onError,
-      success: onSuccess
-
-    });
-  });
-
-  $(document).on('submit', '.edit', function(e){
-
+  $(document).on('submit', '.add', function(e){
+	  			
     e.preventDefault();
 
-      var id        = $('.edit').attr('data-id');
-      var form_data = $('.edit').serialize();
+      var form_data = $('#jquery-val-form').serialize();
 
       var onSuccess = function (data) {
         console.log('Success');
-        window.location.assign("liste_rubrique_scat.php");     
+        window.location.assign("liste_banniere_top.php");
+    
       };
       var onError = function (jqXHR, textStatus, errorThrown) {
           console.log(jqXHR);
           console.log(textStatus);
           console.log(errorThrown);
-          alert("no se conecto");
+          alert("Problème de mise à jour de la base de donnée");
       
       };
       
@@ -361,7 +313,57 @@ $(function () {
           console.log("Loading");
           $('#submit').text('Envoi en cours'); // Onchange la valeur pour avoir un retour visuel
           $('#submit').attr("disabled", true); // On s'assure du fait que le bouton ne sera plus cliquable, tu peut meme rajouter une classe ?!?!
-          $('.edit').block({
+          $('.add').block({
+            message: '<div class="spinner-border text-primary" role="status"></div>',
+            timeout: 1000,
+            css: {
+              backgroundColor: 'transparent',
+              border: '0'
+            },
+            overlayCSS: {
+              backgroundColor: '#fff',
+              opacity: 0.8
+            }
+          });
+          
+      };
+	  
+      var request   = $.ajax({
+        url:          'table/php/data_liste_banniere_top.php?job=add_image',
+        data:         form_data,
+        type:         'post',
+        async: false,
+        beforeSend: onBeforeSend,
+        error: onError,
+        success: onSuccess
+      });	  
+      
+  });
+
+  $(document).on('submit', '.edit', function(e){
+
+		e.preventDefault();
+
+      var form_data = $('#jquery-val-form').serialize();
+
+      var onSuccess = function (data) {
+        console.log('Success');
+        window.location.assign("liste_banniere_top.php");
+    
+      };
+      var onError = function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+          alert("Problème de mise à jour de la base de donnée");
+      
+      };
+      
+      var onBeforeSend = function () {
+          console.log("Loading");          
+          $('#submit').text('Envoi en cours'); // Onchange la valeur pour avoir un retour visuel
+          $('#submit').attr("disabled", true); // On s'assure du fait que le bouton ne sera plus cliquable, tu peut meme rajouter une classe ?!?!
+          $('.add').block({
             message: '<div class="spinner-border text-primary" role="status"></div>',
             timeout: 1000,
             css: {
@@ -374,17 +376,15 @@ $(function () {
             }
           });
       };
-
-
-      var request   = $.ajax({
-        url:          'table/php/data_liste_scat.php?job=edit_scat',
+		  var request   = $.ajax({
+        url:          'table/php/data_liste_banniere_top.php?job=edit_image',
         data:         form_data,
         type:         'post',
         async: false,
         beforeSend: onBeforeSend,
         error: onError,
         success: onSuccess
-      });	  
+      });
 		
 	});
 

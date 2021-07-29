@@ -225,6 +225,7 @@ $PDO_query_cat_unique->closeCursor();
                                     <form method="post" id="jquery-val-form" class="<?php if(!empty($id_cat)){echo 'edit';}else{echo 'add';} ?>" data-id="<?php if(!empty($id_cat)){echo $id_cat;} ?>">
                                                             
                                         <input name="user" type="hidden" value="<?php echo Membre::info($_SESSION['id'], 'id');?>">
+                                        <input name="id_cat" type="hidden" value="<?php echo $id_cat;?>">
 
                                         <div class="row">
 
@@ -236,7 +237,7 @@ $PDO_query_cat_unique->closeCursor();
                                                     class="form-control"
                                                     id="basic-default-titre"
                                                     name="titre"
-                                                    placeholder="Maximum 150 caractéres !"
+                                                    placeholder="..."
                                                     value="<?php if(!empty($id_cat)){echo $cat['eg_categorie_nom'];}?>"
                                                     required
                                                     />                                                 
@@ -279,15 +280,15 @@ $PDO_query_cat_unique->closeCursor();
                                                                 switch($cat['eg_categorie_statut'])
                                                                 {
                                                                     case '1':
-                                                                        if($cat['eg_categorie_statut'] == 1){ echo '<option value="1" selected>Catégorie activée</option><option value="0">Catégorie non activée</option>';}else{ echo '<option value="1">Catégorie activée</option><option value="0">Catégorie non activée</option><option value="" selected>Selectionnez une valeur</option>';}
+                                                                        if($cat['eg_categorie_statut'] == 1){ echo '<option value="1" selected>Catégorie activée</option><option value="0">Catégorie non activée</option>';}else{ echo '<option value="1">Catégorie activée</option><option value="0">Catégorie non activée</option>';}
                                                                     break; 
                                                                                             
                                                                     default:
-                                                                    if($cat['eg_categorie_statut'] == 0){ echo '<option value="1">Catégorie activée</option><option value="0" selected>Catégorie non activée</option>';}else{ echo '<option value="1">Catégorie activée</option><option value="0">Catégorie non activée</option><option value="" selected>Selectionnez une valeur</option>';}
+                                                                    if($cat['eg_categorie_statut'] == 0){ echo '<option value="1">Catégorie activée</option><option value="0" selected>Catégorie non activée</option>';}else{ echo '<option value="1">Catégorie activée</option><option value="0">Catégorie non activée</option>';}
                                                                 } 
                                                             }else{
 
-                                                                echo '<option value="1">Catégorie activée</option><option value="0">Catégorie non activée</option><option value="" selected>Selectionnez une valeur</option>';
+                                                                echo '<option value="1" selected>Catégorie activée</option><option value="0">Catégorie non activée</option>';
 
                                                             } 
 
@@ -299,7 +300,7 @@ $PDO_query_cat_unique->closeCursor();
                                             </div>
 
                                             <div class="col-12 mt-50">
-                                                <button type="submit" class="btn btn-primary mr-1">Enregistrement</button>
+                                                <button type="submit" class="btn btn-primary mr-1" id="submit">Enregistrement</button>
                                                 <button type="reset" class="btn btn-outline-secondary">Annuler</button>
                                             </div>
 
