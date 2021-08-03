@@ -70,7 +70,7 @@ if(empty($_SESSION['id'])){
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="http://<?php echo $_SERVER['SERVER_NAME'];?>/admin_expertgaming/assets/css/style.css">
     <!-- END: Custom CSS-->
 
 </head>
@@ -78,8 +78,7 @@ if(empty($_SESSION['id'])){
 
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click"
-    data-menu="vertical-menu-modern" data-col="">
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static menu-collapsed" data-open="click" data-menu="vertical-menu-modern" data-col="">
 
     <!-- BEGIN: Header-->
     

@@ -24,14 +24,8 @@
     <div class="shadow-bottom"></div>
 
     <div class="main-menu-content">
-        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            
-            <li class=" nav-item">
-                <a class="nav-lik d-flex" href="#">
-                    <i class="fas fa-home"></i>
-                    <span class="menu-title text-truncate" data-i18n="Home">Accueil</span>
-                </a>
-            </li> 
+        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">            
+             
             <li class=" navigation-header"><span data-i18n="Actualités">Actualités</span><i data-feather="more-horizontal"></i></li>
 
             <li class=" nav-item">
@@ -46,12 +40,6 @@
                             <span class="menu-item text-truncate" data-i18n="Gestion Actualités">Gestion Actu.</span>
                         </a>
                     </li> 
-                    <li>
-                        <a class="d-flex align-items-center" href="http://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/page/module/administrateur/communication/liste_comm_archive.php">
-                            <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate" data-i18n="Archive">Archive</span>
-                        </a>
-                    </li>
                 </ul>
             </li>  
             <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Navigation</span><i data-feather="more-horizontal"></i></li>
@@ -121,9 +109,15 @@
 
 
             <li class=" navigation-header"><span data-i18n="">Centre des images</span><i data-feather="more-horizontal"></i></li>
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-user-cog" aria-hidden="true"></i><span class="menu-title text-truncate" data-i18n="Admin">Banniére</span></a>
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-user-cog" aria-hidden="true"></i><span class="menu-title text-truncate" data-i18n="Banniére">Banniére</span></a>
                 <ul class="menu-content">
-                    <li><a class="d-flex align-items-center" title="Gestion des devis" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/page/module/administrateur/banniere/liste_banniere_top.php"><i class="far fa-window-minimize"></i><span class="menu-item text-truncate" data-i18n="Banniére">Gestion des Banniére</span></a>
+                    <li><a class="d-flex align-items-center" title="Gestion des devis" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/page/module/administrateur/banniere/liste_banniere_top.php"><i class="far fa-window-minimize"></i><span class="menu-item text-truncate" data-i18n="Banniére">Gestion des Ban</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i class="fas fa-user-cog" aria-hidden="true"></i><span class="menu-title text-truncate" data-i18n="Publicité">Publicité</span></a>
+                <ul class="menu-content">
+                    <li><a class="d-flex align-items-center" title="Gestion des devis" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/page/module/administrateur/banniere/liste_banniere_top.php"><i class="far fa-window-minimize"></i><span class="menu-item text-truncate" data-i18n="Publicité">Gestion des Pub</span></a>
                     </li>
                 </ul>
             </li>
@@ -143,6 +137,12 @@
                             <span class="menu-item text-truncate" data-i18n="Gestion produit">Gestion produit</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="d-flex align-items-center" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/page/module/administrateur/produit/liste_rubrique_pack.php">
+                            <i class="far fa-window-minimize"></i>
+                            <span class="menu-item text-truncate" data-i18n="Gestion PACK">Gestion PACK</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
@@ -153,7 +153,7 @@
                 </a>
                 <ul class="menu-content">
                     <li>
-                        <a class="d-flex align-items-center" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/page/module/administrateur/communication/liste_comm.php">
+                        <a class="d-flex align-items-center" href="https://<?php echo $_SERVER['SERVER_NAME']?>/admin_expertgaming/page/module/administrateur/produit/biblio.php">
                             <i class="far fa-window-minimize"></i>
                             <span class="menu-item text-truncate" data-i18n="Gestion Marque">Bibliothèque</span>
                         </a>

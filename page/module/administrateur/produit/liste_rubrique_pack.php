@@ -2,7 +2,7 @@
 
 session_start();
 
-$page = "";
+
 if (empty($page)) {
     $page = "function";
     // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
@@ -26,17 +26,26 @@ if (preg_match("/config/", $page)) {
         echo "Page inexistante !";
     }
 }
+
+if(empty($_SESSION['id'])){
+
+    ProtectEspace::administrateur("", "", "");
+
+}else{
+
+    ProtectEspace::administrateur($_SESSION['id'], $_SESSION['jeton'], $_SESSION['niveau']);
+
+}
 ?>
-
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
-<!-- BEGIN: Head-->
+<html class="loading bordered-layout" lang="Fr" data-layout="bordered-layout" data-textdirection="ltr">
 
+<!-- BEGIN: Head-->
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
-    <title>Liste des membres | <?php echo $PARAM_nom_site; ?></title>
+    <title>Listes des produits | <?php echo $PARAM_nom_site; ?></title>
     <link rel="apple-touch-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/favicon.png">
     <link rel="shortcut icon" type="image/x-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
@@ -67,12 +76,10 @@ if (preg_match("/config/", $page)) {
     <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/core/menu/menu-types/vertical-menu.css">
     <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/themes/bordered-layout.css">
     <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/css/plugins/extensions/ext-component-sweet-alerts.css">
-    
-    
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <!-- END: Custom CSS-->
 
@@ -81,144 +88,158 @@ if (preg_match("/config/", $page)) {
 
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern navbar-floating footer-static menu-collapsed" data-open="click"
-    data-menu="vertical-menu-modern" data-col="">
-
+<body class="vertical-layout vertical-menu-modern navbar-floating footer-static menu-collapsed" data-open="click" data-menu="vertical-menu-modern" data-col="">
 
     <!-- BEGIN: Header-->
     <?php
-	$page = '';
-	if (empty($page)) {
-	 $page = "top";
-	 // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
-	 // On supprime également d'éventuels espaces
-	 $page = trim($page.".php");
+        $page = '';
+        if (empty($page)) {
+        $page = "top";
+        // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
+        // On supprime également d'éventuels espaces
+        $page = trim($page.".php");
+        
+        }
+        
+        // On évite les caractères qui permettent de naviguer dans les répertoires
+        $page = str_replace("../","protect",$page);
+        $page = str_replace(";","protect",$page);
+        $page = str_replace("%","protect",$page);
+        
+        // On interdit l'inclusion de dossiers protégés par htaccess
+        if (preg_match("/include/",$page)) {
+        echo "Vous n'avez pas accès à ce répertoire";
+        }
+        
+        else {
+        
+            // On vérifie que la page est bien sur le serveur
+            if (file_exists("../../../include/".$page) && $page != 'index.php') {
+            include("../../../include/".$page); 
+            }
+        
+            else {
+                echo "Page inexistante !";
+            }
+        }
 	
-	}
-	
-	// On évite les caractères qui permettent de naviguer dans les répertoires
-	$page = str_replace("../","protect",$page);
-	$page = str_replace(";","protect",$page);
-	$page = str_replace("%","protect",$page);
-	
-	// On interdit l'inclusion de dossiers protégés par htaccess
-	if (preg_match("/include/",$page)) {
-	 echo "Vous n'avez pas accès à ce répertoire";
-	 }
-	
-	else {
-	
-		// On vérifie que la page est bien sur le serveur
-		if (file_exists("../../../include/".$page) && $page != 'index.php') {
-		   include("../../../include/".$page); 
-		}
-	
-		else {
-			echo "Page inexistante !";
-		}
-	}
-	
-	?>   
-    
+	?>
     <!-- END: Header-->
 
-
     <!-- BEGIN: Main Menu-->
-     <?php
-	$page = '';
-	if (empty($page)) {
-	 $page = "menu";
-	 // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
-	 // On supprime également d'éventuels espaces
-	 $page = trim($page.".php");
-	
-	}
-	
-	// On évite les caractères qui permettent de naviguer dans les répertoires
-	$page = str_replace("../","protect",$page);
-	$page = str_replace(";","protect",$page);
-	$page = str_replace("%","protect",$page);
-	
-	// On interdit l'inclusion de dossiers protégés par htaccess
-	if (preg_match("/include/",$page)) {
-	 echo "Vous n'avez pas accès à ce répertoire";
-	 }
-	
-	else {
-	
-		// On vérifie que la page est bien sur le serveur
-		if (file_exists("../../../include/".$page) && $page != 'index.php') {
-		   include("../../../include/".$page); 
-		}
-	
-		else {
-			echo "Page inexistante !";
-		}
-	}
+    <?php
+        $page = '';
+        if (empty($page)) {
+        $page = "menu";
+        // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
+        // On supprime également d'éventuels espaces
+        $page = trim($page.".php");
+        
+        }
+        
+        // On évite les caractères qui permettent de naviguer dans les répertoires
+        $page = str_replace("../","protect",$page);
+        $page = str_replace(";","protect",$page);
+        $page = str_replace("%","protect",$page);
+        
+        // On interdit l'inclusion de dossiers protégés par htaccess
+        if (preg_match("/include/",$page)) {
+        echo "Vous n'avez pas accès à ce répertoire";
+        }
+        
+        else {
+        
+            // On vérifie que la page est bien sur le serveur
+            if (file_exists("../../../include/".$page) && $page != 'index.php') {
+            include("../../../include/".$page); 
+            }
+        
+            else {
+                echo "Page inexistante !";
+            }
+        }
 	
 	?>
     <!-- END: Main Menu-->
-    <div class="app-content content">
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
             <div class="content-header row">
-                <div class="content-header-left col-md-12 col-12 mb-2">
+                <div class="content-header-left col-md-6 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">ADMINISTRATION</h2>
-                            <div class="breadcrumb-wrapper col-12">
+                            <h2 class="content-header-title float-left mb-0">CATALOGUE</h2>
+                            <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">Administration</li>
-                                    <li class="breadcrumb-item active">Liste des connexions</li>
+                                    <li class="breadcrumb-item">Produits</li>
+                                    <li class="breadcrumb-item">Liste des produits</li>
                                 </ol>
                             </div>
                         </div>
                     </div>
                 </div>
+                
+                <div class="content-header-right text-md-right col-md-6 col-12 d-md-block d-none">
+                    <div class="form-group breadcrumb-right">
+                        <a href="modif_ajout_produit.php" class="btn-icon btn btn-success btn-round btn-sm dropdown-toggle waves-effect waves-float waves-light">Ajouter un produit à la base de donnée</a>
+                        <a href="#" class="btn-icon btn btn-dark btn-round btn-sm dropdown-toggle waves-effect waves-float waves-light" id="refresh">Réinitialiser le tableau</a>
+                    </div>
+                </div>
             </div>
 
+            <!-- Begin : main content -->
             <div class="content-body">
-    			<!-- Column selectors with Export Options and print table -->
-                <section id="data-list-view" class="data-list-view-header">
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- Basic table -->
-                            <section id="basic-datatable">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <?php
-                                            if(!empty($_POST['supprime_connexion'])) {
-                                                ProtectEspace::deleteJeton($_POST['id_jeton']);
-                                            }?>
-                                            <table class="datatables-basic table" id="datatable">
-                                                <thead>
-                                                    <tr>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th>id</th>
-                                                        <th>Nom et prénom</th>
-                                                        <th>Date de connexion</th>
-                                                        <th>IP</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                        </div>
+                <div class="row">
+                    <div class="col-12">
+                                    
+
+                        <!-- Basic table -->
+                        <section id="basic-datatable">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <table class="datatables-basic table" id="datatable">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th>id</th>
+                                                    <th>Propriétaire</th>
+                                                    <th>Image</th>
+                                                    <th>Titre</th>
+                                                    <th>Modele</th>
+                                                    <th>Ref</th>
+                                                    <th>Prix</th>
+                                                    <th>Promo</th> 
+                                                    <th>top</th> 
+                                                    <th>Dispo</th> 
+                                                    <th>Nouveau</th>                                                
+                                                    <th>Insertion</th>
+                                                    <th>Statut</th>
+                                                    <th>supp</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
                                     </div>
                                 </div>
+                            </div>
+                        </section>
+                        <!--/ Basic table -->
 
-                            </section>
-                            <!--/ Basic table -->
-                        </div> 
                     </div>
-                </section>
+                    
+                </div>
+
             </div>
+            <!-- End : main content -->
+
             
         </div>
     </div>
-
     <!-- END: Content-->
 
     <div class="sidenav-overlay"></div>
@@ -226,38 +247,38 @@ if (preg_match("/config/", $page)) {
 
     <!-- BEGIN: Footer-->
     <?php
-	$page = '';
-	if (empty($page)) {
-	 $page = "footer";
-	 // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
-	 // On supprime également d'éventuels espaces
-	 $page = trim($page.".php");
+        $page = '';
+        if (empty($page)) {
+        $page = "footer";
+        // On limite l'inclusion aux fichiers.php en ajoutant dynamiquement l'extension
+        // On supprime également d'éventuels espaces
+        $page = trim($page.".php");
+        
+        }
+        
+        // On évite les caractères qui permettent de naviguer dans les répertoires
+        $page = str_replace("../","protect",$page);
+        $page = str_replace(";","protect",$page);
+        $page = str_replace("%","protect",$page);
+        
+        // On interdit l'inclusion de dossiers protégés par htaccess
+        if (preg_match("/include/",$page)) {
+        echo "Vous n'avez pas accès à ce répertoire";
+        }
+        
+        else {
+        
+            // On vérifie que la page est bien sur le serveur
+            if (file_exists("../../../include/".$page) && $page != 'index.php') {
+            include("../../../include/".$page); 
+            }
+        
+            else {
+                echo "Page inexistante !";
+            }
+        }
 	
-	}
-	
-	// On évite les caractères qui permettent de naviguer dans les répertoires
-	$page = str_replace("../","protect",$page);
-	$page = str_replace(";","protect",$page);
-	$page = str_replace("%","protect",$page);
-	
-	// On interdit l'inclusion de dossiers protégés par htaccess
-	if (preg_match("/include/",$page)) {
-	 echo "Vous n'avez pas accès à ce répertoire";
-	 }
-	
-	else {
-	
-		// On vérifie que la page est bien sur le serveur
-		if (file_exists("../../../include/".$page) && $page != 'index.php') {
-		   include("../../../include/".$page); 
-		}
-	
-		else {
-			echo "Page inexistante !";
-		}
-	}
-	
-	?>
+	?> 
     <!-- END: Footer-->
 
 
@@ -287,7 +308,7 @@ if (preg_match("/config/", $page)) {
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
-    <script charset="utf-8"  src="<?php echo Admin::menuadmin();?>table/js/webapp_liste_jeton.js"></script>
+    <script charset="utf-8"  src="<?php echo Admin::menuproduit();?>table/js/webapp_liste_produit.js"></script>
 
     <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
     <script src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/vendors/js/extensions/polyfill.min.js"></script>
@@ -308,21 +329,22 @@ if (preg_match("/config/", $page)) {
                 });
             }
             $.blockUI({
-                message: '<div class="spinner-border text-white" role="status"></div>',
-                timeout: 1000,
-                css: {
-                backgroundColor: 'transparent',
-                border: '0'
-                },
-                overlayCSS: {
-                opacity: 0.5
-                }
-            });
-        })
+            message: '<div class="spinner-border text-white" role="status"></div>',
+            timeout: 1000,
+            css: {
+              backgroundColor: 'transparent',
+              border: '0'
+            },
+            overlayCSS: {
+              opacity: 0.5
+            }
+          });
+            
+            
+        });
     </script>
     <script src="https://kit.fontawesome.com/7791373c6a.js" crossorigin="anonymous"></script>
 </body>
 <!-- END: Body-->
 
 </html>
-?>

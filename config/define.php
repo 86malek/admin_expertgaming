@@ -40,7 +40,7 @@ define('PROFIL', ' (pseudo, email, password) VALUES (:pseudo, :email, :pass)');
 define('IDMEMBRE', ' WHERE id_membre=:id');
 define('LOGIN', ' WHERE pseudo=:login');
 define('ACTIVMEMBRE', ' SET activation=:activer');
-define('MAJPROFIL', ' SET email=:email, tel=:tel, adresse=:adresse, cp=:cp, ville=:ville, genre=:genre, naissance=:naissance, nom=:nom, prenom=:prenom, description=:description, mailing=:mailing WHERE id=:id');
+define('MAJPROFIL', ' SET email=:email, tel=:tel, adresse=:adresse, cp=:cp, ville=:ville, genre=:genre, naissance=:naissance, nom=:nom, prenom=:prenom, description=:description, photo=:photo WHERE id=:id');
 define('MAJAVATAR', ' SET id_avatar=:idAvatar');
 define('MAJPASS', ' SET password=:newPass');
 define('NIVEAU', ' SET niveau=:niveau');

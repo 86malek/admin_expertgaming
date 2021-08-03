@@ -51,9 +51,9 @@ $PDO_query_comm_unique->closeCursor();
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
-    <title><?php if(!empty($_GET["id"])){echo'Communication | Modification - Infopro-Digital';}else{echo'Communication | Ajout - Infopro-Digital';} ?></title>
-    <link rel="apple-touch-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/apple-icon-120.png">
-    <link rel="shortcut icon" type="image/x-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/favicon-16x16.png">
+    <title><?php if(!empty($_GET["id"])){echo'Actualité | Modification - '.$PARAM_nom_site;}else{echo'Communication | Ajout - '.$PARAM_nom_site;} ?></title>
+    <link rel="apple-touch-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
         rel="stylesheet">
 
@@ -85,7 +85,7 @@ $PDO_query_comm_unique->closeCursor();
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="../../../../assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <!-- END: Custom CSS-->
 </head>
@@ -192,8 +192,8 @@ $PDO_query_comm_unique->closeCursor();
                 </div>
                 <div class="content-header-right text-md-right col-md-4 col-4">
                     <div class="form-group breadcrumb-right float-right d-flex">
-                        <a style="font-size: 0.9rem !important;" class="btn-sm btn-gradient-success waves-effect waves-float waves-light text-nowrap mr-25" href="liste_comm.php">Retour</a>
-                        <?php if(!empty($id_comm)){echo '<a style="font-size: 0.9rem !important;" class="btn-sm btn-gradient-secondary waves-effect waves-float waves-light text-nowrap w-50 mr-25" href="prev_comm.php?id='.$_GET["id"].'" target="_blank">Preview</a>';}?>
+                        <a style="font-size: 0.9rem !important;" class="btn btn-success waves-effect waves-float waves-light" href="liste_comm.php">Retour</a>
+                        
                         
                     </div>
                 </div>
@@ -209,7 +209,16 @@ $PDO_query_comm_unique->closeCursor();
                                 <div class="card-body">
                                     <div class="media mb-2">
                                         <div class="avatar mr-75">
-                                            <img src="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/portrait/small/man.png" width="38" height="38" alt="Avatar" />
+                                            <img src="<?php $photo = Membre::info($_SESSION['id'], 'photo');
+                                                        if($photo != NULL)
+                                                        {
+                                                            echo $photo;
+                                                        }
+                                                        else
+                                                        {
+                                                            echo 'https://'.$_SERVER['SERVER_NAME'].'/'.$PARAM_url_non_doc_site.'/app-assets/images/portrait/small/man.png';
+                                                        }
+                                                        ?>" width="38" height="38" alt="Avatar" />
                                         </div>
                                         <div class="media-body">
                                             <h6 class="mb-25"><?php echo Membre::info($_SESSION['id'], 'nom').' '.Membre::info($_SESSION['id'], 'prenom');?></h6>
@@ -221,7 +230,7 @@ $PDO_query_comm_unique->closeCursor();
                                     <form method="post" id="jquery-val-form" class="<?php if(!empty($id_comm)){echo 'edit';}else{echo 'add';} ?>" data-id="<?php echo $id_comm; ?>">
                                                             
                                         <input name="user" type="hidden" value="<?php echo Membre::info($_SESSION['id'], 'nom').' '.Membre::info($_SESSION['id'], 'prenom');?>">
-                                        <input name="email" type="hidden" value="<?php echo Membre::info($_SESSION['id'], 'email');?>">
+                                        <input name="id_comm" type="hidden" value="<?php echo $id_comm;?>">
 
                                         <div class="row">
 
@@ -254,17 +263,17 @@ $PDO_query_comm_unique->closeCursor();
                                                                     case '1':
                                                                         if($communication['eg_comm_cat'] == 1){ 
                                                                             echo '
-                                                                            <option value="1" selected>Direction générale</option>
-                                                                            <option value="2">RH</option>
-                                                                            <option value="3">Services généraux</option>
-                                                                            <option value="5">CCE</option>
+                                                                            <option value="1" selected>Information générale</option>
+                                                                            <option value="2">Divers</option>
+                                                                            <option value="3">Tech</option>
+                                                                            <option value="5">Annonce</option>
                                                                             ';
                                                                         }else{ 
                                                                                 echo '
-                                                                                <option value="1">Direction générale</option>
-                                                                                <option value="2">RH</option>
-                                                                                <option value="3">Services généraux</option>
-                                                                                <option value="5">CCE</option>
+                                                                                <option value="1">Information générale</option>
+                                                                                <option value="2">Divers</option>
+                                                                                <option value="3">Tech</option>
+                                                                                <option value="5">Annonce</option>
                                                                                 <option value="" selected>Selectionnez une catégorie ...</option>';
                                                                         }
                                                                     break;
@@ -272,17 +281,17 @@ $PDO_query_comm_unique->closeCursor();
                                                                     case '2':
                                                                         if($communication['eg_comm_cat'] == 2){ 
                                                                             echo '
-                                                                            <option value="1">Direction générale</option>
-                                                                            <option value="2" selected>RH</option>
-                                                                            <option value="3">Services généraux</option>
-                                                                            <option value="5">CCE</option>
+                                                                            <option value="1">Information générale</option>
+                                                                            <option value="2" selected>Divers</option>
+                                                                            <option value="3">Tech</option>
+                                                                            <option value="5">Annonce</option>
                                                                             ';
                                                                         }else{ 
                                                                             echo '
-                                                                            <option value="1">Direction générale</option>
-                                                                            <option value="2">RH</option>
-                                                                            <option value="3">Services généraux</option>
-                                                                            <option value="5">CCE</option>
+                                                                            <option value="1">Information générale</option>
+                                                                            <option value="2">Divers</option>
+                                                                            <option value="3">Tech</option>
+                                                                            <option value="5">Annonce</option>
                                                                             <option value="" selected>Selectionnez une catégorie ...</option>';
                                                                         }
                                                                     break; 
@@ -290,17 +299,17 @@ $PDO_query_comm_unique->closeCursor();
                                                                     case '3':
                                                                         if($communication['eg_comm_cat'] == 3){ 
                                                                             echo '
-                                                                            <option value="1">Direction générale</option>
-                                                                            <option value="2">RH</option>
-                                                                            <option value="3" selected>Services généraux</option>
-                                                                            <option value="5">CCE</option>
+                                                                            <option value="1">Information générale</option>
+                                                                            <option value="2">Divers</option>
+                                                                            <option value="3" selected>Tech</option>
+                                                                            <option value="5">Annonce</option>
                                                                             ';
                                                                         }else{ 
                                                                             echo '
-                                                                            <option value="1">Direction générale</option>
-                                                                            <option value="2">RH</option>
-                                                                            <option value="3">Services généraux</option>
-                                                                            <option value="5">CCE</option>
+                                                                            <option value="1">Information générale</option>
+                                                                            <option value="2">Divers</option>
+                                                                            <option value="3">Tech</option>
+                                                                            <option value="5">Annonce</option>
                                                                             <option value="" selected>Selectionnez une catégorie ...</option>';
                                                                         }
                                                                     break;
@@ -308,17 +317,17 @@ $PDO_query_comm_unique->closeCursor();
                                                                     case '5':
                                                                         if($communication['eg_comm_cat'] == 5){ 
                                                                             echo '
-                                                                            <option value="1">Direction générale</option>
-                                                                            <option value="2">RH</option>
-                                                                            <option value="3">Services généraux</option>
-                                                                            <option value="5" selected>CCE</option>
+                                                                            <option value="1">Information générale</option>
+                                                                            <option value="2">Divers</option>
+                                                                            <option value="3">Tech</option>
+                                                                            <option value="5" selected>Annonce</option>
                                                                             ';
                                                                         }else{ 
                                                                             echo '
-                                                                            <option value="1">Direction générale</option>
-                                                                            <option value="2">RH</option>
-                                                                            <option value="3">Services généraux</option>
-                                                                            <option value="5">CCE</option>
+                                                                            <option value="1">Information générale</option>
+                                                                            <option value="2">Divers</option>
+                                                                            <option value="3">Tech</option>
+                                                                            <option value="5">Annonce</option>
                                                                             <option value="" selected>Selectionnez une catégorie ...</option>';
                                                                         }
                                                                     break; 
@@ -326,10 +335,10 @@ $PDO_query_comm_unique->closeCursor();
                                                             }else{
 
                                                                 echo '
-                                                                <option value="1">Direction générale</option>
-                                                                <option value="2">RH</option>
-                                                                <option value="3">Services généraux</option>
-                                                                <option value="5">CCE</option>
+                                                                <option value="1">Information générale</option>
+                                                                <option value="2">Divers</option>
+                                                                <option value="3">Tech</option>
+                                                                <option value="5">Annonce</option>
                                                                 <option value="" selected>Selectionnez une catégorie ...</option>';
 
                                                             }
@@ -362,82 +371,38 @@ $PDO_query_comm_unique->closeCursor();
                                                                     case '1':
                                                                         if($communication['eg_comm_statut'] == 1){ 
                                                                             echo '
-                                                                            <option value="1" selected>En attente</option>
-                                                                            <option value="2">Valider</option>
-                                                                            <option value="3">Archiver</option>
-                                                                            <option value="4">Annuler</option>
+                                                                            <option value="1" selected>Active</option>
+                                                                            <option value="0">Non-active</option>
                                                                             ';
                                                                         }else{ 
                                                                                 echo '
-                                                                                <option value="1">En attente</option>
-                                                                                <option value="2">Valider</option>
-                                                                                <option value="3">Archiver</option>
-                                                                                <option value="4">Annuler</option>
+                                                                                <option value="1">Active</option>
+                                                                                <option value="0">Non-active</option>
                                                                                 <option value="" selected>Selectionnez un statut ...</option>';
                                                                         }
                                                                     break;
                                                                     
-                                                                    case '2':
-                                                                        if($communication['eg_comm_statut'] == 2){ 
+                                                                    case '0':
+                                                                        if($communication['eg_comm_statut'] == 0){ 
                                                                             echo '
-                                                                            <option value="1">En attente</option>
-                                                                            <option value="2" selected>Valider</option>
-                                                                            <option value="3">Archiver</option>
-                                                                            <option value="4">Annuler</option>
+                                                                            <option value="1">Active</option>
+                                                                            <option value="0" selected>Non-active</option>
                                                                             ';
                                                                         }else{ 
                                                                             echo '
-                                                                            <option value="1">En attente</option>
-                                                                            <option value="2">Valider</option>
-                                                                            <option value="3">Archiver</option>
-                                                                            <option value="4">Annuler</option>
+                                                                            <option value="1">Active</option>
+                                                                            <option value="0">Non-active</option>
                                                                             <option value="" selected>Selectionnez un statut ...</option>';
                                                                         }
                                                                     break; 
 
-                                                                    case '3':
-                                                                        if($communication['eg_comm_statut'] == 3){ 
-                                                                            echo '
-                                                                            <option value="1">En attente</option>
-                                                                            <option value="2">Valider</option>
-                                                                            <option value="3" selected>Archiver</option>
-                                                                            <option value="4">Annuler</option>
-                                                                            ';
-                                                                        }else{ 
-                                                                            echo '
-                                                                            <option value="1">En attente</option>
-                                                                            <option value="2">Valider</option>
-                                                                            <option value="3">Archiver</option>
-                                                                            <option value="4">Annuler</option>
-                                                                            <option value="" selected>Selectionnez un statut ...</option>';
-                                                                        }
-                                                                    break;
                                                                     
-                                                                    case '4':
-                                                                        if($communication['eg_comm_statut'] == 4){ 
-                                                                            echo '
-                                                                            <option value="1">En attente</option>
-                                                                            <option value="2">Valider</option>
-                                                                            <option value="3">Archiver</option>
-                                                                            <option value="4" selected>Annuler</option>
-                                                                            ';
-                                                                        }else{ 
-                                                                            echo '
-                                                                            <option value="1">En attente</option>
-                                                                            <option value="2">Valider</option>
-                                                                            <option value="3">Archiver</option>
-                                                                            <option value="4">Annuler</option>
-                                                                            <option value="" selected>Selectionnez un statut ...</option>';
-                                                                        }
-                                                                    break; 
                                                                 } 
                                                             }else{
 
                                                                 echo '
-                                                                <option value="1">En attente</option>
-                                                                <option value="2">Valider</option>
-                                                                <option value="3">Archiver</option>
-                                                                <option value="4">Annuler</option>
+                                                                <option value="1">Active</option>
+                                                                <option value="0">Non-active</option>
                                                                 <option value="" selected>Selectionnez un statut ...</option>';
 
                                                             }

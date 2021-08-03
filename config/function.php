@@ -793,7 +793,7 @@ class Membre {
 		}
 	}
 	// Mise a jour du profil du membre
-	public static function majProfil($id, $naissance, $genre, $nom, $prenom, $email, $tel, $adresse, $cp, $ville, $mailing, $description) {
+	public static function majProfil($id, $naissance, $genre, $nom, $prenom, $email, $tel, $adresse, $cp, $ville, $description, $photo) {
 		$description = filter_var($description, FILTER_SANITIZE_STRING);
 		$description = nl2br($description);
 		$resultat = Bdd::connectBdd()->prepare(UPDATE.MEMBREZ.MAJPROFIL);
@@ -807,7 +807,8 @@ class Membre {
 		$resultat -> bindParam(':nom', $nom);
 		$resultat -> bindParam(':prenom', $prenom);
 		$resultat -> bindParam(':description', $description);
-		$resultat -> bindParam(':mailing', $mailing);
+		$resultat -> bindParam(':photo', $photo);
+		//$resultat -> bindParam(':mailing', $mailing);
 		$resultat -> bindParam(':id', $id, PDO::PARAM_INT, 11);
 		$resultat -> execute();
 		redirection('profil.php');

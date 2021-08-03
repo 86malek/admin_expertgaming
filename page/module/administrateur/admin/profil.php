@@ -42,7 +42,6 @@ if(!empty($_POST['changePrenom'])) {
 if(!empty($_POST['changeEmail'])) {
 	Membre::profilVisibilite($_SESSION['id'], 'email');
 }
-
 if(!empty($_POST['changeTel'])) {
 	Membre::profilVisibilite($_SESSION['id'], 'tel');
 }
@@ -59,7 +58,7 @@ if(!empty($_POST['maj'])) {
 	extract($_POST);
 	if(Message::interdit($description)) {
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			Membre::majProfil($_SESSION['id'], $naissance, $genre, $nom, $prenom, $email, $tel, $adresse, $cp, $ville, $mailing, $description);
+			Membre::majProfil($_SESSION['id'], $naissance, $genre, $nom, $prenom, $email, $tel, $adresse, $cp, $ville, $description, $photo);
 		}
 		else {
 			$err = 'Votre adresse email n\'est pas conforme,<br />veuillez recommencer la mise &agrave; jour de votre profil.';
@@ -80,8 +79,8 @@ if(!empty($_POST['maj'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">    
     <title>Profile utilisateur <?php echo ''.Membre::info($_SESSION['id'], 'pseudo'); ?> | <?php echo $PARAM_nom_site; ?></title>
-    <link rel="apple-touch-icon" href="http://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/apple-icon-120.png">
-    <link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="https://<?php echo $_SERVER['SERVER_NAME']?>/<?php echo $PARAM_url_non_doc_site; ?>/app-assets/images/ico/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
         rel="stylesheet">
 
@@ -125,7 +124,7 @@ if(!empty($_POST['maj'])) {
 <!-- END: Head-->
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern 2-columns navbar-floating footer-static" data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+<body class="vertical-layout vertical-menu-modern 2-columns navbar-floating footer-static menu-collapsed" data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
 
 
     <!-- BEGIN: Header-->
@@ -465,13 +464,6 @@ if(!empty($_POST['maj'])) {
 															
                                                         </div>
                                                     </div>
-
-													<div class="col-md-12">
-														<input type="submit" class="btn btn-primary mr-1 mb-1" value="Mettre &agrave; jour le Profile" name="maj" class="input">
-                                                        <button type="reset" class="btn btn-outline-secondary mr-1 mb-1">Annuler</button>
-                                                    </div>
-
-
 												</div>
                                                 <div class="row">                           
                                                     <div class="col-12 mb-2">
@@ -481,9 +473,10 @@ if(!empty($_POST['maj'])) {
                                                             <div class="media flex-column flex-md-row">
 
                                                                 <?php
-                                                                if(!empty($id_produit))
+                                                                $photo = Membre::info($_SESSION['id'], 'photo');
+                                                                if($photo != NULL)
                                                                 {
-                                                                    echo '<img src="'.$img1['eg_image_produit_nom'].'" id="blog-feature-image-1" class="rounded mr-2 mb-1 mb-md-0" width="150" alt="Blog Featured Image" />';
+                                                                    echo '<img src="'.$photo.'" id="blog-feature-image-1" class="rounded mr-2 mb-1 mb-md-0" width="150" alt="Blog Featured Image" />';
                                                                 }
                                                                 else
                                                                 {
@@ -493,17 +486,14 @@ if(!empty($_POST['maj'])) {
 
                                                                 <div class="media-body">
 
-                                                                    <small class="text-muted">Aucune limite de taille et de poids pour les images !</small>
 
                                                                     <p class="my-50">
                                                                         <a id="blog-image-text-1">
 
-                                                                            <?php 
-                                                                            if(!empty($id_produit)){
-                                                                                echo $img1['eg_image_produit_nom'];
-                                                                            }else{
-                                                                                echo 'C:\fakepath\image.jpg';
-                                                                            }
+                                                                            <?php
+
+                                                                                echo $photo;
+                                                                            
                                                                             ?>
                                                                             
                                                                         </a>
@@ -514,19 +504,16 @@ if(!empty($_POST['maj'])) {
 
                                                                                 <div class="col-md-4 col-6">
                                                                                     <div class="form-group">
-                                                                                    <input id="ckfinder-input-1" type="text" class="form-control" name="img1" value="<?php 
-                                                                                        $photo = Membre::visibilite($_SESSION['id'], 'prenom');
-                                                                                        if(!empty($id_produit)){
-                                                                                            echo $img1['eg_image_produit_nom'];
-                                                                                        }
-                                                                                        ?>" required/> 
+                                                                                    <input id="ckfinder-input-1" type="text" class="form-control" name="photo" value="<?php 
+                                                                                            echo $photo;                                                                                 
+                                                                                        ?>" placeholder="..." required/> 
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-md-4 col-6">
                                                                                     <div class="form-group">
                                                                                     <a id="ckfinder-popup-1" class="btn btn-dark waves-effect waves-float waves-light">
                                                                                         <i data-feather="upload" class="mr-25"></i>
-                                                                                        <span>Choisir une premiere image</span>
+                                                                                        <span>Choisir une image de profile</span>
                                                                                     </a> 
                                                                                     </div>
                                                                                 </div>                                       
@@ -542,8 +529,8 @@ if(!empty($_POST['maj'])) {
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12 mt-50">
-                                                        <button type="submit" class="btn btn-primary mr-1">Enregistrement de votre photo</button>
-                                                        <button type="reset" class="btn btn-outline-secondary">Annuler</button>
+                                                        <input type="submit" class="btn btn-success mr-1 mb-1" value="Mettre &agrave; jour le Profile" name="maj" class="input">
+                                                        <button type="reset" class="btn btn-danger mb-1">Annuler</button>
                                                     </div>
 
                                                 </div>
