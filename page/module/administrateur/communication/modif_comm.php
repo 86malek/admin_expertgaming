@@ -465,7 +465,7 @@ $PDO_query_comm_unique->closeCursor();
 
                                                         <div class="media-body">
 
-                                                            <small class="text-muted">Aucune limite de taille et de poids pour les images !</small>
+                                                            <small class="text-muted">Des images de 640 pixel en largeur !</small>
 
                                                             <p class="my-50">
                                                                 <a id="blog-image-text">
@@ -501,7 +501,7 @@ $PDO_query_comm_unique->closeCursor();
                                                                             <div class="form-group">
                                                                             <a id="ckfinder-popup-1" class="btn btn-dark waves-effect waves-float waves-light text-nowrap">
                                                                                 <!-- <i data-feather="upload" class="mr-25"></i> -->
-                                                                                <span>Choisir une image</span>
+                                                                                <span>Choisir une image Largeur 640px</span>
                                                                             </a> 
                                                                             </div>
                                                                         </div>
