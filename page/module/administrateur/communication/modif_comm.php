@@ -229,7 +229,7 @@ $PDO_query_comm_unique->closeCursor();
                                     <!-- Form -->
                                     <form method="post" id="jquery-val-form" class="<?php if(!empty($id_comm)){echo 'edit';}else{echo 'add';} ?>" data-id="<?php echo $id_comm; ?>">
                                                             
-                                        <input name="user" type="hidden" value="<?php echo Membre::info($_SESSION['id'], 'nom').' '.Membre::info($_SESSION['id'], 'prenom');?>">
+                                        <input name="user" type="hidden" value="<?php echo Membre::info($_SESSION['id'], 'id');?>">
                                         <input name="id_comm" type="hidden" value="<?php echo $id_comm;?>">
 
                                         <div class="row">
@@ -410,6 +410,24 @@ $PDO_query_comm_unique->closeCursor();
                                                     </select>
                                                 </div>
                                             </div>
+                                            
+                                            <div class="col-12">
+                                                <div class="form-group mb-2">
+                                                    <label>Texte de la description courte *:</label>
+                                                    
+                                                    <div id="blog-editor-wrapper">
+                                                        <div id="blog-editor-container">
+                                                            <textarea name="courte" class="editor form-control" cols="80" id="editor_1" rows="10" data-sample-short required>
+                                                            <?php
+                                                            if(!empty($id_comm))
+                                                            {echo $communication['eg_comm_desc_courte'];}                                                           
+                                                            ?>
+                                                            </textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
 
                                             <div class="col-12">
                                                 <div class="form-group mb-2">
@@ -584,7 +602,7 @@ $PDO_query_comm_unique->closeCursor();
 
     <script src="ckeditor/js/sf.js"></script>
     <script src="ckeditor/js/tree-a.js"></script>
-    <script src="https://cdn.ckeditor.com/4.12.1/standard-all/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/4.12.1/full-all/ckeditor.js"></script>
     <script src="ckfinder/ckfinder.js"></script>
 
 <script>
@@ -597,6 +615,13 @@ $PDO_query_comm_unique->closeCursor();
 			height:250
 		} );
 		CKFinder.setupCKEditor( editor );
+
+        var editor_1 = CKEDITOR.replace( 'editor_1', {
+			extraPlugins: 'uploadimage,image2',
+			removePlugins: 'image',
+			height:250
+		} );
+		CKFinder.setupCKEditor( editor_1 );
  
  
         $(window).on('load', function () {

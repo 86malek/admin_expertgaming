@@ -149,16 +149,17 @@ if ($job != '') {
 
     } elseif ($job == 'add_comm') {
         try {
-            $query = Bdd::connectBdd()->prepare("INSERT INTO eg_comm (`eg_comm_titre`, `eg_comm_sous_titre`, `eg_comm_date`, `eg_comm_desc`, `eg_comm_img`, `eg_comm_statut`, `eg_comm_cat`, `eg_comm_user`)
-			 VALUES (:comm_titre, :comm_sous_titre, now(), :article, :img, :statut, :cat, :user)");
+            $query = Bdd::connectBdd()->prepare("INSERT INTO eg_comm (`eg_comm_titre`, `eg_comm_sous_titre`, `eg_comm_date`, `eg_comm_desc`, `eg_comm_img`, `eg_comm_statut`, `eg_comm_cat`, `eg_comm_user`, `eg_comm_desc_courte`)
+			 VALUES (:comm_titre, :comm_sous_titre, now(), :article, :img, :statut, :cat, :user, :courte)");
 
             $query->bindParam(":comm_titre", $_POST['titre'], PDO::PARAM_STR);
             $query->bindParam(":comm_sous_titre", $_POST['stitre'], PDO::PARAM_STR);
             $query->bindParam(":article", $_POST['article'], PDO::PARAM_STR);
+            $query->bindParam(":courte", $_POST['courte'], PDO::PARAM_STR);
             $query->bindParam(":img", $_POST['img'], PDO::PARAM_STR);
             $query->bindParam(":statut", $_POST['statut'], PDO::PARAM_INT);
             $query->bindParam(":cat", $_POST['cat'], PDO::PARAM_INT);
-            $query->bindParam(":user", $_POST['user'], PDO::PARAM_STR);
+            $query->bindParam(":user", $_POST['user'], PDO::PARAM_INT);
 
             $query->execute();
             $query->closeCursor();
@@ -190,13 +191,14 @@ if ($job != '') {
         }
     } elseif ($job == 'comm_edit') {
        
-            $query = Bdd::connectBdd()->prepare("UPDATE eg_comm SET eg_comm_user = :eg_comm_user, eg_comm_date = NOW(), eg_comm_cat = :eg_comm_cat, eg_comm_titre = :eg_comm_titre, eg_comm_sous_titre = :eg_comm_sous_titre, eg_comm_desc = :eg_comm_desc, eg_comm_img = :eg_comm_img, eg_comm_statut = :eg_comm_statut  WHERE eg_comm_id = :eg_comm_id");
+            $query = Bdd::connectBdd()->prepare("UPDATE eg_comm SET eg_comm_user = :eg_comm_user, eg_comm_date = NOW(), eg_comm_cat = :eg_comm_cat, eg_comm_titre = :eg_comm_titre, eg_comm_sous_titre = :eg_comm_sous_titre, eg_comm_desc = :eg_comm_desc, eg_comm_img = :eg_comm_img, eg_comm_statut = :eg_comm_statut, eg_comm_desc_courte = :eg_comm_desc_courte  WHERE eg_comm_id = :eg_comm_id");
             $query->bindParam(":eg_comm_id", $_POST['id_comm'], PDO::PARAM_INT);
-            $query->bindParam(":eg_comm_user", $_POST['user'], PDO::PARAM_STR);
+            $query->bindParam(":eg_comm_user", $_POST['user'], PDO::PARAM_INT);
             $query->bindParam(":eg_comm_cat", $_POST['cat'], PDO::PARAM_INT);
             $query->bindParam(":eg_comm_titre", $_POST['titre'], PDO::PARAM_STR);
             $query->bindParam(":eg_comm_sous_titre", $_POST['stitre'], PDO::PARAM_STR);
             $query->bindParam(":eg_comm_desc", $_POST['article'], PDO::PARAM_STR);
+            $query->bindParam(":eg_comm_desc_courte", $_POST['courte'], PDO::PARAM_STR);
             $query->bindParam(":eg_comm_img", $_POST['img'], PDO::PARAM_STR);
             $query->bindParam(":eg_comm_statut", $_POST['statut'], PDO::PARAM_INT);
             $query->execute();

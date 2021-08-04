@@ -275,7 +275,7 @@ $(function () {
 									  Swal.fire({
 										  type: "success",
 										  title: 'Supprimée!',
-										  text: "Niveau '" + name + "' effacé avec succès.",
+										  text: "Actualité '" + name + "' effacée avec succès.",
 										  confirmButtonClass: 'btn btn-success',
 										});
                     dt_basic.ajax.reload();

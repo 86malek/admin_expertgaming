@@ -1413,33 +1413,3 @@ class Admin {
 		
 } // Fin de la classe administrateur
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
