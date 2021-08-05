@@ -63,7 +63,13 @@ if ($job != '') {
                         $functions = '
                         <a href="modif_ajout_produit.php?id='.$produit['eg_produit_id'].'" style="font-size: 0.9rem !important;" class="btn btn-info btn-sm">Modifer les details</a>';
                         $functions .= '
-                        <a href="modif_ajout_produit_image.php?id='.$produit['eg_produit_id'].'" style="font-size: 0.9rem !important;" class="btn btn-warning btn-sm ml-1">Gelerie</a>';
+                        <a href="modif_ajout_produit_image.php?id='.$produit['eg_produit_id'].'" style="font-size: 0.9rem !important;" class="btn btn-warning btn-sm ml-1">Galerie</a>';
+                        if($produit['eg_produit_pack'] == 1){
+
+                            $functions .= '
+                            <a href="modif_ajout_produit_pack.php?id='.$produit['eg_produit_id'].'" style="font-size: 0.9rem !important;" class="btn btn-dark btn-sm ml-1">Modifier le pack</a>';
+
+                        }
 
                         $PDO_query_verif_img = Bdd::connectBdd()->prepare("SELECT * FROM eg_image_produit WHERE eg_produit_id  = :eg_produit_id");
                         $PDO_query_verif_img->bindParam(":eg_produit_id", $produit['eg_produit_id'], PDO::PARAM_INT);
@@ -229,7 +235,7 @@ if ($job != '') {
     }elseif ($job == 'add_produit') {
         try {
 
-            $query = Bdd::connectBdd()->prepare("INSERT INTO eg_produit (`eg_produit_date`, `eg_produit_user`, `eg_categorie_id`, `eg_sous_categorie_id`,`eg_menu_id`, `eg_produit_nom`, `eg_produit_etoiles`, `eg_produit_reference`, `eg_produit_modele`, `eg_produit_prix`, `eg_produit_promo`, `eg_produit_disponibilite`, `eg_produit_description`, `eg_produit_top_vente`, `eg_produit_statut`, `eg_produit_dispo`, `eg_marque_id`, `eg_produit_description_longue`, `eg_produit_new`) VALUES (now(), :eg_produit_user, :eg_categorie_id, :eg_sous_categorie_id,  :eg_menu_id, :eg_produit_nom, :eg_produit_etoiles, :eg_produit_reference, :eg_produit_modele, :eg_produit_prix, :eg_produit_promo, :eg_produit_disponibilite, :eg_produit_description, :eg_produit_top_vente, :eg_produit_statut, :eg_produit_dispo, :eg_marque_id, :eg_produit_description_longue, :eg_produit_new)");
+            $query = Bdd::connectBdd()->prepare("INSERT INTO eg_produit (`eg_produit_date`, `eg_produit_user`, `eg_categorie_id`, `eg_sous_categorie_id`,`eg_menu_id`, `eg_produit_nom`, `eg_produit_etoiles`, `eg_produit_reference`, `eg_produit_modele`, `eg_produit_prix`, `eg_produit_promo`, `eg_produit_disponibilite`, `eg_produit_description`, `eg_produit_top_vente`, `eg_produit_statut`, `eg_produit_dispo`, `eg_marque_id`, `eg_produit_description_longue`, `eg_produit_new`, `eg_produit_pack`) VALUES (now(), :eg_produit_user, :eg_categorie_id, :eg_sous_categorie_id,  :eg_menu_id, :eg_produit_nom, :eg_produit_etoiles, :eg_produit_reference, :eg_produit_modele, :eg_produit_prix, :eg_produit_promo, :eg_produit_disponibilite, :eg_produit_description, :eg_produit_top_vente, :eg_produit_statut, :eg_produit_dispo, :eg_marque_id, :eg_produit_description_longue, :eg_produit_new, :eg_produit_pack)");
             
             $query->bindParam(":eg_produit_user", $_POST['user'], PDO::PARAM_INT);
             $query->bindParam(":eg_categorie_id", $_POST['cat'], PDO::PARAM_INT);
@@ -249,6 +255,7 @@ if ($job != '') {
             $query->bindParam(":eg_produit_statut", $_POST['statut'], PDO::PARAM_INT);
             $query->bindParam(":eg_produit_dispo", $_POST['dispo'], PDO::PARAM_INT);
             $query->bindParam(":eg_produit_new", $_POST['new'], PDO::PARAM_INT);
+            $query->bindParam(":eg_produit_pack", $_POST['pack'], PDO::PARAM_INT);
 
             $query->execute();
             $query->closeCursor();
@@ -289,7 +296,7 @@ if ($job != '') {
 
         
 
-            $query = Bdd::connectBdd()->prepare("UPDATE eg_produit SET eg_produit_date = now(), eg_produit_user = :eg_produit_user, eg_categorie_id = :eg_categorie_id, eg_sous_categorie_id = :eg_sous_categorie_id, eg_marque_id = :eg_marque_id, eg_menu_id = :eg_menu_id, eg_produit_nom = :eg_produit_nom, eg_produit_etoiles = :eg_produit_etoiles, eg_produit_reference = :eg_produit_reference, eg_produit_modele = :eg_produit_modele, eg_produit_prix = :eg_produit_prix, eg_produit_promo = :eg_produit_promo, eg_produit_disponibilite = :eg_produit_disponibilite, eg_produit_description = :eg_produit_description, eg_produit_description_longue = :eg_produit_description_longue, eg_produit_top_vente = :eg_produit_top_vente, eg_produit_statut = :eg_produit_statut, eg_produit_dispo = :eg_produit_dispo, eg_produit_new = :eg_produit_new WHERE eg_produit_id = :eg_produit_id");
+            $query = Bdd::connectBdd()->prepare("UPDATE eg_produit SET eg_produit_date = now(), eg_produit_user = :eg_produit_user, eg_categorie_id = :eg_categorie_id, eg_sous_categorie_id = :eg_sous_categorie_id, eg_marque_id = :eg_marque_id, eg_menu_id = :eg_menu_id, eg_produit_nom = :eg_produit_nom, eg_produit_etoiles = :eg_produit_etoiles, eg_produit_reference = :eg_produit_reference, eg_produit_modele = :eg_produit_modele, eg_produit_prix = :eg_produit_prix, eg_produit_promo = :eg_produit_promo, eg_produit_disponibilite = :eg_produit_disponibilite, eg_produit_description = :eg_produit_description, eg_produit_description_longue = :eg_produit_description_longue, eg_produit_top_vente = :eg_produit_top_vente, eg_produit_statut = :eg_produit_statut, eg_produit_dispo = :eg_produit_dispo, eg_produit_new = :eg_produit_new, eg_produit_pack = :eg_produit_pack WHERE eg_produit_id = :eg_produit_id");
 
             $query->bindParam(":eg_produit_id", $_POST['id_produit'], PDO::PARAM_INT);
             $query->bindParam(":eg_produit_user", $_POST['user'], PDO::PARAM_INT);
@@ -310,6 +317,7 @@ if ($job != '') {
             $query->bindParam(":eg_produit_statut", $_POST['statut'], PDO::PARAM_INT);
             $query->bindParam(":eg_produit_dispo", $_POST['dispo'], PDO::PARAM_INT);
             $query->bindParam(":eg_produit_new", $_POST['new'], PDO::PARAM_INT);
+            $query->bindParam(":eg_produit_pack", $_POST['pack'], PDO::PARAM_INT);
 
             $query->execute();
 
