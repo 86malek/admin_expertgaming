@@ -68,7 +68,7 @@ $(function () {
             if ($user_img) {
               // For Avatar image
               var $output =
-                '<img src="' + assetPath + 'images/avatars/' + $user_img + '" alt="Avatar" width="32" height="32">';
+                '<img src="' + $user_img + '" alt="Avatar" width="32" height="32">';
             } else {
               // For Avatar badge
               var stateNum = full['status'];
@@ -83,7 +83,7 @@ $(function () {
             var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
             // Creates full output for row
             var $row_output =
-              '<div class="d-flex justify-content-center align-items-center">' +'<div class="avatar ' +
+              '<div class="d-flex justify-content-left align-items-center">' +'<div class="avatar ' +
               colorClass +
               ' mr-1">' +
               $output +
@@ -275,7 +275,7 @@ $(function () {
 									  Swal.fire({
 										  type: "success",
 										  title: 'Supprimée!',
-										  text: "Niveau '" + name + "' effacé avec succès.",
+										  text: "Actualité '" + name + "' effacée avec succès.",
 										  confirmButtonClass: 'btn btn-success',
 										});
                     dt_basic.ajax.reload();

@@ -70,14 +70,8 @@ if ($job != '') {
             <a href="modif_comm.php?id='.$communication['eg_comm_id'].'" style="font-size: 1.5rem !important;" class="btn waves-effect waves-float waves-light mr-25 mb-25 p-0">
                 <i class="bi bi-pencil-square"></i>
             </a>
-            <a href="prev_comm.php?id='.$communication['eg_comm_id'].'" style="font-size: 1.5rem !important;" class="btn waves-effect waves-float waves-light mr-25 mb-25 p-0">
-                <i class="bi bi-arrows-fullscreen"></i>
-            </a>
             <a href="#" id="delete-record" data-id="' .$communication['eg_comm_id'].'" data-name="' .$communication['eg_comm_titre'].'" style="font-size: 1.5rem !important;" class="btn waves-effect waves-float waves-light mr-25 mb-25 p-0">
                 <i class="bi bi-trash"></i>
-            </a>
-            <a href="#" data-id="' .$communication['eg_comm_id'].'" style="font-size: 1.5rem !important;" class="btn waves-effect waves-float waves-light mr-25 mb-25 p-0">
-                <i class="bi bi-person-lines-fill"></i>
             </a>
             
             ';
@@ -87,21 +81,20 @@ if ($job != '') {
             $name_user = Membre::info($_SESSION['id'], 'nom').' '.Membre::info($_SESSION['id'], 'prenom');
             $titre = $communication['eg_comm_titre'];
             $id = $communication['eg_comm_id'];
-            $email = $communication['eg_comm_email_user'];
 
             switch($communication['eg_comm_cat'])
             {
                 case '1':
-                    $cat = '<div class="badge badge-light-success">Direction générale</div>';
+                    $cat = '<div class="badge badge-light-success">Information générale</div>';
                 break;
                 case '2':
-                    $cat = '<div class="badge badge-light-info">Ressources Humaines</div>';
+                    $cat = '<div class="badge badge-light-info">Divers</div>';
                 break;  
                 case '3':
-                    $cat = '<div class="badge badge-light-info">Services généraux</div>';
+                    $cat = '<div class="badge badge-light-info">Tech</div>';
                 break; 
                 case '5':
-                    $cat = '<div class="badge badge-light-secondary">CCE</div>';
+                    $cat = '<div class="badge badge-light-secondary">Annonce</div>';
                 break;                            
                 default:
                     $cat = '<div class="badge badge-light-info">Attente de catégorie</div>';
@@ -111,21 +104,23 @@ if ($job != '') {
             switch($communication['eg_comm_statut'])
             {
                 case '1':
-                    $statut = '<div class="badge badge-light-warning">En attente</div>';
+                    $statut = '<div class="badge badge-light-warning">Active</div>';
                 break;
-                case '2':
-                    $statut = '<div class="badge badge-light-success">Valider</div>';
-                break;  
-                case '3':
-                    $statut = '<div class="badge badge-light-secondary">Archiver</div>';
-                break; 
-                case '4':
-                    $statut = '<div class="badge badge-light-danger">Annuler</div>';
-                break;                           
-                default:
-                    $statut = '<div class="badge badge-light-info">Inactif</div>';
+                case '0':
+                    $statut = '<div class="badge badge-light-success">Non-active</div>';
+                break;
             }
             $stitre = $communication['eg_comm_sous_titre'];
+            $photo = Membre::info($_SESSION['id'], 'photo');
+            if($photo != NULL)
+            {
+                $avatar = $photo;
+            }
+            else
+            {
+                $avatar = 'https://'.$_SERVER['SERVER_NAME'].'/'.$PARAM_url_non_doc_site.'/app-assets/images/portrait/small/man.png';
+            }
+
 
             $mysql_data[] = [
                 "responsive_id" => "",
@@ -134,12 +129,12 @@ if ($job != '') {
                 "post" => $stitre,
                 "titre" => $titre,
                 "cat" => $cat,
-                "email" => $email,
                 "city" => "Krasnosilka",
                 "start_date" => date_format($date, "d/m/Y"),
                 "age" => "61",
                 "experience" => "1 Year",
                 "status" => $statut,
+                "avatar" => $avatar,
                 "Actions" => $functions
             ];
         }
@@ -154,17 +149,17 @@ if ($job != '') {
 
     } elseif ($job == 'add_comm') {
         try {
-            $query = Bdd::connectBdd()->prepare("INSERT INTO eg_comm (`eg_comm_titre`, `eg_comm_sous_titre`, `eg_comm_date`, `eg_comm_desc`, `eg_comm_img`, `eg_comm_statut`, `eg_comm_cat`, `eg_comm_email_user`, `eg_comm_user`)
-			 VALUES (:comm_titre, :comm_sous_titre, now(), :article, :img, :statut, :cat, :email, :user)");
+            $query = Bdd::connectBdd()->prepare("INSERT INTO eg_comm (`eg_comm_titre`, `eg_comm_sous_titre`, `eg_comm_date`, `eg_comm_desc`, `eg_comm_img`, `eg_comm_statut`, `eg_comm_cat`, `eg_comm_user`, `eg_comm_desc_courte`)
+			 VALUES (:comm_titre, :comm_sous_titre, now(), :article, :img, :statut, :cat, :user, :courte)");
 
             $query->bindParam(":comm_titre", $_POST['titre'], PDO::PARAM_STR);
             $query->bindParam(":comm_sous_titre", $_POST['stitre'], PDO::PARAM_STR);
             $query->bindParam(":article", $_POST['article'], PDO::PARAM_STR);
+            $query->bindParam(":courte", $_POST['courte'], PDO::PARAM_STR);
             $query->bindParam(":img", $_POST['img'], PDO::PARAM_STR);
             $query->bindParam(":statut", $_POST['statut'], PDO::PARAM_INT);
             $query->bindParam(":cat", $_POST['cat'], PDO::PARAM_INT);
-            $query->bindParam(":email", $_POST['email'], PDO::PARAM_STR);
-            $query->bindParam(":user", $_POST['user'], PDO::PARAM_STR);
+            $query->bindParam(":user", $_POST['user'], PDO::PARAM_INT);
 
             $query->execute();
             $query->closeCursor();
@@ -195,25 +190,22 @@ if ($job != '') {
            
         }
     } elseif ($job == 'comm_edit') {
-        if ($id == '') {
-            $result = 'Échec';
-            $message = 'Échec id';
-        } else {
-            $query = Bdd::connectBdd()->prepare("UPDATE eg_comm SET eg_comm_user = :eg_comm_user, eg_comm_email_user = :eg_comm_email_user, eg_comm_date = NOW(), eg_comm_cat = :eg_comm_cat, eg_comm_titre = :eg_comm_titre, eg_comm_sous_titre = :eg_comm_sous_titre, eg_comm_desc = :eg_comm_desc, eg_comm_img = :eg_comm_img, eg_comm_statut = :eg_comm_statut  WHERE eg_comm_id = :eg_comm_id");
-            $query->bindParam(":eg_comm_id", $id, PDO::PARAM_INT);
-            $query->bindParam(":eg_comm_user", $_POST['user'], PDO::PARAM_STR);
-            $query->bindParam(":eg_comm_email_user", $_POST['email'], PDO::PARAM_STR);
+       
+            $query = Bdd::connectBdd()->prepare("UPDATE eg_comm SET eg_comm_user = :eg_comm_user, eg_comm_date = NOW(), eg_comm_cat = :eg_comm_cat, eg_comm_titre = :eg_comm_titre, eg_comm_sous_titre = :eg_comm_sous_titre, eg_comm_desc = :eg_comm_desc, eg_comm_img = :eg_comm_img, eg_comm_statut = :eg_comm_statut, eg_comm_desc_courte = :eg_comm_desc_courte  WHERE eg_comm_id = :eg_comm_id");
+            $query->bindParam(":eg_comm_id", $_POST['id_comm'], PDO::PARAM_INT);
+            $query->bindParam(":eg_comm_user", $_POST['user'], PDO::PARAM_INT);
             $query->bindParam(":eg_comm_cat", $_POST['cat'], PDO::PARAM_INT);
             $query->bindParam(":eg_comm_titre", $_POST['titre'], PDO::PARAM_STR);
             $query->bindParam(":eg_comm_sous_titre", $_POST['stitre'], PDO::PARAM_STR);
             $query->bindParam(":eg_comm_desc", $_POST['article'], PDO::PARAM_STR);
+            $query->bindParam(":eg_comm_desc_courte", $_POST['courte'], PDO::PARAM_STR);
             $query->bindParam(":eg_comm_img", $_POST['img'], PDO::PARAM_STR);
             $query->bindParam(":eg_comm_statut", $_POST['statut'], PDO::PARAM_INT);
             $query->execute();
             $query->closeCursor();
             $result = 'success';
             $message = 'Succès de requête';
-        }
+        
     }
 }
 

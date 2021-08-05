@@ -91,7 +91,7 @@
                         </span>
                     </div>
                     <span class="avatar">
-                        <img  class="round" src="http://<?php echo $_SERVER['SERVER_NAME'];?>/admin_expertgaming/app-assets/images/portrait/small/man.png" alt="avatar" height="40" width="40">
+                        <img  class="round" src="<?php echo Membre::info($_SESSION['id'], 'photo');?>" alt="avatar" height="40" width="40">
                         <span class="avatar-status-online"></span>
                     </span>
                 </a>

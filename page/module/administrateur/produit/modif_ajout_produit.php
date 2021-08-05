@@ -177,7 +177,7 @@ $PDO_query_produit_unique->closeCursor();
         <div class="content-wrapper">
 
             <div class="content-header row">
-                <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="content-header-left col-md-6 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
                             <h2 class="content-header-title float-left mb-0">CATALOGUE</h2>
@@ -193,12 +193,13 @@ $PDO_query_produit_unique->closeCursor();
                         </div>
                     </div>
                 </div>
-                <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
+                <div class="content-header-right text-md-right col-md-6 col-12 d-md-block d-none">
                     <div class="form-group breadcrumb-right">
                         
-                        <?php if(!empty($id_produit)){echo '<a class="btn btn-warning btn-round btn-sm" href="modif_ajout_produit_image.php?id='.$id_produit.'">Galerie des photos</a>';} ?>
+                        <?php if(!empty($id_produit)){echo '<a class="btn btn-dark btn-round btn-sm" href="modif_ajout_produit_pack.php?id='.$id_produit.'">Construire un pack</a>
+                                                            <a class="btn btn-warning btn-round btn-sm" href="modif_ajout_produit_image.php?id='.$id_produit.'">Galerie photos</a>';} ?>
                         
-                        <a class="btn btn-success btn-round btn-sm" href="liste_rubrique_produit.php">Revenir à la liste des produit</a>                     
+                        <a class="btn btn-success btn-round btn-sm" href="liste_rubrique_produit.php">Revenir à la liste</a>                     
 
                     </div>
                 </div>
@@ -707,6 +708,35 @@ $PDO_query_produit_unique->closeCursor();
                                                     </select>
                                                 </div>
                                             </div>                                           
+
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-md-12 col-12">
+                                                <div class="form-group mb-2">
+                                                    <label for="blog-edit-pack">Type PACK *:</label>
+                                                    <select class="form-control" id="blog-edit-pack" name="pack" required>
+                                                        <?php 
+                                                            if(isset($produit['eg_produit_pack'])){
+                                                                switch($produit['eg_produit_pack'])
+                                                                {
+                                                                    case '1':
+                                                                        if($produit['eg_produit_pack'] == 1){ echo '<option value="1" selected>Type pack activé</option><option value="0">Type pack non activé</option>';}else{ echo '<option value="1">Type pack activé</option><option value="0" selected>Type pack non activé</option>';}
+                                                                    break;
+                                                                                            
+                                                                    default:
+                                                                    if($produit['eg_produit_pack'] == 0){ echo '<option value="1">Type pack activé</option><option value="0" selected>Type pack non activé</option>';}else{ echo '<option value="1">Type pack activé</option><option value="0" selected>Type pack non activé</option>';}
+                                                                } 
+                                                            }else{
+
+                                                                echo '<option value="1">Type pack activé</option><option value="0" selected>Type pack non activé</option>';
+
+                                                            }                                                
+                                                            
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>                                             
 
                                         </div>
                                         <div class="row">
